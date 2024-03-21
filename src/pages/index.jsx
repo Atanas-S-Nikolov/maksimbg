@@ -27,10 +27,8 @@ export default function Home() {
           </TextContent>
         </div>
         <Image
-          className={styles.boardImg}
+          className={styles.board_img}
           src={biologyBoard}
-          width={400}
-          height={400}
           alt="maksim.bg"
           title={SITE_NAME}
         />

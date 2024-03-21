@@ -1,7 +1,30 @@
+.university_img {
+  width: 300px;
+  height: auto;
+  aspect-ratio: 1 / 1;
+}
+
 .mu_plovdiv_img {
   background-color: var(--mu-plovdiv-color);
 }
 
 .list {
   color: var(--text-secondary-color);
+}
+
+@media (max-width: 500px) {
+  .heading {
+    font-size: larger !important;
+  }
+  
+  .list,
+  .text_content {
+    font-size: small;
+  }
+}
+
+@media (max-width: 400px) {
+  .university_img {
+    width: 225px;
+  }
 }

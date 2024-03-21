@@ -14,12 +14,17 @@ const name = "Медицински университет - София";
 export default function SofiaMU() {
   return (
     <>
-      <Heading>{name}</Heading>
-      <Image src={muLogo} alt={name} width={300} />
+      <Heading className={styles.heading}>{name}</Heading>
+      <Image
+        className={styles.university_img}
+        src={muLogo}
+        alt={name}
+        priority
+      />
       <SubHeading>
         Кандидат- студентски изпит по биология ще бъде с времетраене 4 часа.
       </SubHeading>
-      <TextContent>
+      <TextContent className={styles.text_content}>
         <AccentText>МОДУЛ 1</AccentText> с продължителност{" "}
         <AccentText>90 минути</AccentText>, който да включва:
       </TextContent>
@@ -34,7 +39,7 @@ export default function SofiaMU() {
           или процеси чрез схеми, модели и символи;
         </li>
       </ul>
-      <TextContent>
+      <TextContent className={styles.text_content}>
         <AccentText>МОДУЛ 2</AccentText> с продължителност{" "}
         <AccentText>150 минути</AccentText>, който да включва:
       </TextContent>
@@ -46,7 +51,7 @@ export default function SofiaMU() {
         </li>
         <li>4 отворени въпроса, които изискват разширен отговор.</li>
       </ul>
-      <TextContent>
+      <TextContent className={styles.text_content}>
         Програмата за изпита по биология ще включва материал от задължителната
         подготовка по предмета Биология и здравно образование (материалът от 8,
         9, и 10-ти клас на гимназиите) и материал от профилираната подготовка

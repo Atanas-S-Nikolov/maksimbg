@@ -13,18 +13,18 @@ const name = "Медицински университет - Пловдив";
 export default function PlovdivMU() {
   return (
     <>
-      <Heading>{name}</Heading>
+      <Heading className={styles.heading}>{name}</Heading>
       <Image
-        className={styles.mu_plovdiv_img}
+        className={`${styles.university_img} ${styles.mu_plovdiv_img}`}
         src={muPlovdivLogo}
         alt={name}
-        width={300}
+        priority
       />
       <SubHeading>
         Конкурсният изпит по биология е писмен и се провежда в продължение на
         два часа.
       </SubHeading>
-      <TextContent>
+      <TextContent className={styles.text_content}>
         За това време кандидат-студентите решават тест върху материала от 8, 9 и
         10 клас. Тестът включва 8 типови задачи по подобие на тези в сборниците
         с тестове по биология за кандидат-студенти, издание на МУ-Пловдив.
@@ -32,7 +32,7 @@ export default function PlovdivMU() {
         подготовка в първо ниво на гимназиално обучение и включва избрани теми
         от профилираната подготовка.
       </TextContent>
-      <TextContent>
+      <TextContent className={styles.text_content}>
         В писмения изпит трябва да личи умението на кандидат-студента да си
         служи свободно с учебния материал, да обяснява задълбочено и вярно
         включените факти, явления и закономерности и добра писмена, и езикова

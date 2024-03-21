@@ -13,13 +13,18 @@ const name = "Медицински университет - Плевен";
 export default function PlevenMu() {
   return (
     <>
-      <Heading>{name}</Heading>
-      <Image src={muPlevenLogo} alt={name} width={300} />
+      <Heading className={styles.heading}>{name}</Heading>
+      <Image
+        className={styles.university_img}
+        src={muPlevenLogo}
+        alt={name}
+        priority
+      />
       <SubHeading>
         Кандидатстудентският изпит по биология е писмен тест с продължителност 2
         часа.
       </SubHeading>
-      <TextContent>
+      <TextContent className={styles.text_content}>
         Тестът съдържа въпроси с различна степен на сложност, върху материала по
         биология от учебниците за задължителна подготовка за 8, 9 и 10 клас и от
         учебниците за профилирана подготовка за 11 и 12 клас.

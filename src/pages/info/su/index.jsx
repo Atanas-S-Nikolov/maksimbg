@@ -14,12 +14,17 @@ const name = "Софийски университет";
 export default function SofiaUniversity() {
   return (
     <>
-      <Heading>{name}</Heading>
-      <Image src={suLogo} alt={name} width={300} />
+      <Heading className={styles.heading}>{name}</Heading>
+      <Image
+        className={styles.university_img}
+        src={suLogo}
+        alt={name}
+        priority
+      />
       <SubHeading>
         Кандидатстудентският изпит по биология включва два компонента:
       </SubHeading>
-      <TextContent>
+      <TextContent className={styles.text_content}>
         <AccentText>Компонент 1</AccentText> съдържа тест от 60 тестови задачи
         по биология <br />
         <br /> <AccentText>Компонент 2</AccentText> е задължителен само за
@@ -28,10 +33,10 @@ export default function SofiaUniversity() {
         компонент се приемат само кандидат-студентите, получили резултат
         &quot;ДА&quot;, т. е. темата не се оценява с оценка.
       </TextContent>
-      <TextContent>
+      <TextContent className={styles.text_content}>
         С оценката от изпита по биология или с оценката от ДЗИ по биология
-        можете да кандидатствате за специалностите &quot;Медицинска сестра&quot; и
-        &quot;Медицинска рехабилитация и ерготерапия&quot;.
+        можете да кандидатствате за специалностите &quot;Медицинска сестра&quot;
+        и &quot;Медицинска рехабилитация и ерготерапия&quot;.
       </TextContent>
     </>
   );

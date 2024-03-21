@@ -1,5 +1,7 @@
 import styles from "@/styles/components/header/MobileNavigation.module.css";
 
+import { Fragment } from "react";
+
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
@@ -61,9 +63,9 @@ export default function MobileNavigation({ anchor, open, onClose }) {
             </List>
           </Collapse>
           {navigationLinks.map((link, index) => (
-            <>
-              {index > 0 ? <Divider key={index}/> : null}
-              <ListItem key={link.text} disableGutters>
+            <Fragment key={index}>
+              {index > 0 ? <Divider /> : null}
+              <ListItem disableGutters>
                 <ListItemButton
                   className={styles.mobile_list_button}
                   href={link.href}
@@ -71,7 +73,7 @@ export default function MobileNavigation({ anchor, open, onClose }) {
                   <ListItemText primary={link.text} />
                 </ListItemButton>
               </ListItem>
-            </>
+            </Fragment>
           ))}
         </List>
       </Box>

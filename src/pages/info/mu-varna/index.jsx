@@ -11,9 +11,14 @@ const name = "Медицински университет - Варна";
 export default function VarnaMU() {
   return (
     <>
-      <Heading>{name}</Heading>
-      <Image src={muVarnaLogo} alt={name} width={300} />
-      <TextContent>
+      <Heading className={styles.heading}>{name}</Heading>
+      <Image
+        className={styles.university_img}
+        src={muVarnaLogo}
+        alt={name}
+        priority
+      />
+      <TextContent className={styles.text_content}>
         Конкурсният изпит по биология в МУ-Варна е писмен и представлява
         решаване на комбинация от тестови въпроси, съобразени с учебния
         материал, изучаван в СОУ по биология и здравно образование в 8, 9, 10,
@@ -22,7 +27,7 @@ export default function VarnaMU() {
         биология върху учебния материал за задължителна подготовка, изучаван в
         8, 9 и 10 клас, издания на МУ-Варна, съответно 2014, 2015 и 2016 година.
       </TextContent>
-      <TextContent>
+      <TextContent className={styles.text_content}>
         Комбинацията съдържа въпроси с различна трудност, от пет различни типа:
       </TextContent>
       <ul className={styles.list}>
