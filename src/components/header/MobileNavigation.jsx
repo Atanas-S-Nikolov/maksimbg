@@ -47,8 +47,12 @@ export default function MobileNavigation({ anchor, open, onClose }) {
           <Divider />
           <Collapse in={collapseOpen} timeout="auto" unmountOnExit>
             <List className={styles.nested_list} disablePadding>
-              {subMenuLinks.map((link, index) => (
-                <ListItem className={styles.nested_list_link} key={index} disableGutters>
+              {subMenuLinks.map((link) => (
+                <ListItem
+                  key={link.mobileText}
+                  className={styles.nested_list_link}
+                  disableGutters
+                >
                   <ListItemButton href={link.href}>
                     <ListItemText primary={link.mobileText} />
                   </ListItemButton>
@@ -58,9 +62,12 @@ export default function MobileNavigation({ anchor, open, onClose }) {
           </Collapse>
           {navigationLinks.map((link, index) => (
             <>
-              {index > 0 ? <Divider /> : null}
-              <ListItem key={index} disableGutters>
-                <ListItemButton className={styles.mobile_list_button} href={link.href}>
+              {index > 0 ? <Divider key={index}/> : null}
+              <ListItem key={link.text} disableGutters>
+                <ListItemButton
+                  className={styles.mobile_list_button}
+                  href={link.href}
+                >
                   <ListItemText primary={link.text} />
                 </ListItemButton>
               </ListItem>

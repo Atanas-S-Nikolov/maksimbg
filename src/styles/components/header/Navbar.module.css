@@ -36,3 +36,9 @@
     color: transparent;
   }
 }
+
+@media (max-width: 500px) {
+  .header {
+    padding: 1em 0em;
+  }
+}
