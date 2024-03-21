@@ -1,0 +1,50 @@
+:root {
+  --primary-color: #639A67;
+  --secondary-color: #205D67;
+  --text-secondary-color: #888888;
+  --mu-plovdiv-color: rgb(132 28 55 / 97%);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  line-height: 2.5rem;
+}
+
+a {
+  text-decoration: none;
+  color: var(--secondary-color);
+}
+
+img {
+  max-width: 100%;
+}
+
+.main-content {
+  display: grid;
+  place-items: center;
+  padding: 0 12em;
+  margin-top: 3em;
+}
+
+.hidden_el {
+  visibility: hidden;
+}
+
+@media (max-width: 900px) {
+  .main-content {
+    padding: 0 6em;
+  }
+}
+
+@media (max-width: 600px) {
+  .main-content {
+    padding: 0 3em;
+  }
+}
+
+@media (max-width: 500px) {
+  .main-content {
+    padding: 0 1.5em;
+  }
+}

@@ -1,0 +1,19 @@
+.mobile_list {
+  color: var(--secondary-color);
+}
+
+.mobile_list_button {
+  padding-left: 7px;
+}
+
+.nested_list {
+  color: var(--text-secondary-color);
+}
+
+.nested_list_link {
+  padding-left: 7px;
+}
+
+.nested_list_link:active {
+  color: var(--primary-color);
+}

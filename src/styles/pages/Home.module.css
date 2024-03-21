@@ -1,0 +1,36 @@
+.container {
+  display: flex;
+  gap: 10em;
+}
+
+.greeting {
+  margin-top: 0;
+}
+
+.level_test_section {
+  text-align: center;
+}
+
+@media (max-width: 1500px) {
+  .greeting {
+    font-size: large !important;
+  }
+
+  .description {
+    font-size: small;
+  }
+}
+
+@media (max-width: 1400px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+}
+
+@media (max-width: 550px) {
+  .level_test_text {
+    font-size: small;
+  }
+}

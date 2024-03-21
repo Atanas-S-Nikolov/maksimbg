@@ -1,0 +1,38 @@
+.header {
+  padding: 1em 2em;
+}
+
+.logo_wrapper {
+  margin-right: auto;
+}
+
+.nav {
+  display: flex;
+  gap: 2em;
+  margin-right: 2em;
+}
+
+.nav a, .nav button {
+  color: white;
+}
+
+.menu_button {
+  display: none;
+  color: white;
+}
+
+@media (max-width: 1140px) {
+  .menu_button{
+    display: block;
+  }
+
+  .nav {
+    flex-direction: column;
+    align-items: start;
+    position: absolute;
+  }
+
+  .nav a {
+    color: transparent;
+  }
+}
