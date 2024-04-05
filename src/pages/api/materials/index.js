@@ -8,18 +8,17 @@ export default async function handler(req, res) {
     case POST:
       break;
     case GET:
-      res.status(200).json(await executeDbCall(() => University.find({}), res));
+      res.status(200).json(await executeDbCall(() => University.find({})));
       break;
     case PUT:
-      const response = await executeDbCall(
-        () =>
-          University.findOneAndUpdate(
-            { universityName: body.universityName },
-            body
-          ),
-        res
+      const response = await executeDbCall(() =>
+        University.findOneAndUpdate(
+          { universityName: body.universityName },
+          body
+        )
       );
       res.status(200).json(response);
+      break;
     case DELETE:
       break;
   }
