@@ -1,5 +1,5 @@
 export const navigationLinks = [
-  { href: "/self-training-materials", text: "Материали за самоподготовка" },
+  { href: "/materials", text: "Материали за самоподготовка" },
   { href: "/blog", text: "Блог" },
   { href: "/contacts", text: "Контакти" },
 ];

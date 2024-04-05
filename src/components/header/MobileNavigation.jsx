@@ -10,6 +10,9 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import Collapse from "@mui/material/Collapse";
 import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
+
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 import { useState } from "react";
 
@@ -35,6 +38,9 @@ export default function MobileNavigation({ anchor, open, onClose }) {
   function renderList() {
     return (
       <Box role="presentation">
+        <IconButton onClick={handleClose}>
+          <CloseRoundedIcon />
+        </IconButton>
         <List className={styles.mobile_list} disablePadding>
           <ListItem onClick={toggleCollapse} disableGutters>
             <ListItemButton className={styles.mobile_list_button}>

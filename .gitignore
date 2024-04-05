@@ -34,3 +34,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# impl
+/src/app/api/admin/register
+/src/app/admin/register
+/src/pages/api/admin/register
+/src/pages/admin/register

@@ -2,6 +2,10 @@
   padding: 1em 2em;
 }
 
+.header a, .header button {
+  color: white;
+}
+
 .logo_wrapper {
   margin-right: auto;
 }
@@ -12,18 +16,13 @@
   margin-right: 2em;
 }
 
-.nav a, .nav button {
-  color: white;
-}
-
 .menu_button {
-  display: none;
-  color: white;
+  display: none !important;
 }
 
 @media (max-width: 1140px) {
   .menu_button{
-    display: block;
+    display: block !important;
   }
 
   .nav {

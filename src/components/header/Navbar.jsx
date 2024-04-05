@@ -9,27 +9,36 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogActions from "@mui/material/DialogActions";
 
 import MobileNavigation from "./MobileNavigation";
 
 import { useRef, useState } from "react";
 import { useMediaQuery, useUpdateEffect } from "@react-hookz/web";
+import { useDispatch, useSelector } from "react-redux";
 
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
-import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
 import KeyboardArrowUpRoundedIcon from "@mui/icons-material/KeyboardArrowUpRounded";
+import LogoutIcon from '@mui/icons-material/Logout';
 
 import { navigationLinks, subMenuLinks } from "@/constants/links";
 
 import logo from "@/assets/logo.svg";
 import { SITE_NAME } from "@/constants/global";
+import { logout } from "@/services/AdminService";
+import { logoutReducer } from "@/lib/store/slices/authenticationSlice";
 
 export default function Navbar() {
-  const [MenuButtonIcon, setMenuButtonIcon] = useState(MenuRoundedIcon);
   const [anchorEl, setAnchorEl] = useState(null);
   const submenuOpen = Boolean(anchorEl);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [error, setError] = useState();
+  const { isLoggedIn } = useSelector(state => state.authentication);
+  const dispatch = useDispatch();
   const navRef = useRef(null);
   const md = useMediaQuery("(max-width: 1140px)", {
     initializeWithValue: false,
@@ -37,12 +46,10 @@ export default function Navbar() {
 
   function closeNav() {
     navRef.current?.classList.add("hidden_el");
-    setMenuButtonIcon(MenuRoundedIcon);
   }
 
   function openNav() {
     navRef.current?.classList.remove("hidden_el");
-    setMenuButtonIcon(CloseRoundedIcon);
   }
 
   function closeMobileNav() {
@@ -62,17 +69,13 @@ export default function Navbar() {
     setAnchorEl(null);
   }
 
-  function handleMenuBtnClick(event) {
-    event.preventDefault();
-    if (MenuButtonIcon === MenuRoundedIcon) {
-      openMobileNav();
-      return;
-    }
-    closeMobileNav();
-  }
-
   function handleSubMenuLinkClick() {
     closeSubmenu();
+  }
+
+  async function handleLogout() {
+    await logout();
+    dispatch(logoutReducer())
   }
 
   useUpdateEffect(() => {
@@ -127,13 +130,25 @@ export default function Navbar() {
               </Button>
             ))}
           </nav>
-          <IconButton
-            className={styles.menu_button}
-            onClick={handleMenuBtnClick}
-          >
-            <MenuButtonIcon className={styles.menu_icon} />
+          <IconButton className={styles.menu_button} onClick={openMobileNav}>
+            <MenuRoundedIcon className={styles.menu_icon} />
           </IconButton>
+          {isLoggedIn ? (
+            <IconButton title="Изход" onClick={handleLogout}>
+              <LogoutIcon />
+            </IconButton>
+          ) : null}
         </Toolbar>
+        {error ? (
+          <Dialog>
+            <DialogContent>
+              <DialogContentText>{error}</DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button href="/admin/login">Влизане</Button>
+            </DialogActions>
+          </Dialog>
+        ) : null}
       </AppBar>
       <MobileNavigation
         anchor="right"

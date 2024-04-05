@@ -1,0 +1,25 @@
+.auth_form {
+  display: grid;
+  gap: 1em;
+  margin-top: 3em;
+  width: 300px;
+}
+
+.action_btn {
+  margin: 1em auto 0 auto !important;
+  width: 60%;
+}
+
+.heading {
+  text-align: center;
+}
+
+@media (max-width: 400px) {
+  .auth_form {
+    width: auto;
+  }
+
+  .heading {
+    font-size: x-large;
+  }
+}

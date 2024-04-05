@@ -1,0 +1,21 @@
+.files_section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+  justify-content: center;
+  margin-bottom: 1em;
+}
+
+.file {
+  display: flex;
+  text-wrap: nowrap;
+  align-items: center;
+  gap: 3px;
+  padding: 1em;
+  width: 200px;
+}
+
+.file #file_name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

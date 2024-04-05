@@ -24,7 +24,7 @@ img {
   display: grid;
   place-items: center;
   padding: 0 12em;
-  margin-top: 3em;
+  margin: 3em 0;
 }
 
 .hidden_el {
