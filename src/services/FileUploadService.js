@@ -5,6 +5,7 @@ import {
   uploadBytesResumable,
   getDownloadURL,
   listAll,
+  deleteObject,
 } from "firebase/storage";
 
 export function uploadFiles(files, directory, onProgressUpdate, onFinished, onError) {
@@ -66,4 +67,13 @@ export async function getFilesByDirectory(directory) {
       return await Promise.all(promises);
     })
     .catch((error) => console.log(error));
+}
+
+export async function deleteFile(fileDirectory) {
+  try {
+    const fileRef = ref(storage, fileDirectory);
+    return await deleteObject(fileRef);
+  } catch(error) {
+    console.log(error);
+  }
 }

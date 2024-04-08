@@ -17,7 +17,7 @@ export async function connectToDB() {
 
     isConnected = true;
     console.log("MongoDB is connected");
-  } catch (error) {
+  } catch(error) {
     console.log(error);
   }
 }
@@ -26,7 +26,7 @@ export async function executeDbCall(promiseCallback) {
   try {
     await connectToDB();
     return await promiseCallback();
-  } catch (error) {
+  } catch(error) {
     console.log(error);
     throw error;
   }

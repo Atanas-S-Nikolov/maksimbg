@@ -36,7 +36,8 @@ export default function Navbar() {
   const [anchorEl, setAnchorEl] = useState(null);
   const submenuOpen = Boolean(anchorEl);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
-  const [error, setError] = useState();
+  // TODO: Implement dialog after token expiration
+  // const [error, setError] = useState();
   const { isLoggedIn } = useSelector(state => state.authentication);
   const dispatch = useDispatch();
   const navRef = useRef(null);
@@ -139,7 +140,7 @@ export default function Navbar() {
             </IconButton>
           ) : null}
         </Toolbar>
-        {error ? (
+        {/* {error ? (
           <Dialog>
             <DialogContent>
               <DialogContentText>{error}</DialogContentText>
@@ -148,7 +149,7 @@ export default function Navbar() {
               <Button href="/admin/login">Влизане</Button>
             </DialogActions>
           </Dialog>
-        ) : null}
+        ) : null} */}
       </AppBar>
       <MobileNavigation
         anchor="right"

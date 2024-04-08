@@ -12,7 +12,7 @@ export default function Login() {
       dispatch(loginReducer());
       console.log(response)
       return response;
-    } catch (error) {
+    } catch(error) {
       console.log(error)
     }
   }

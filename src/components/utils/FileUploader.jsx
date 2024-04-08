@@ -12,6 +12,7 @@ import ErrorIcon from "@mui/icons-material/Error";
 import { useState } from "react";
 
 import {
+  deleteFile,
   getFilesByDirectory,
   uploadFiles,
 } from "@/services/FileUploadService";
@@ -30,12 +31,18 @@ export default function FileUploader({ university }) {
     setError(false);
     setUploadFinished(true);
     getFilesByDirectory(directory).then(async (files) => {
-      console.log(files);
-      await updateUniversityMaterials({
-        universityName,
-        directory,
-        materials: files,
-      });
+      const { fileName } = files[0];
+      try {
+        await updateUniversityMaterials({
+          universityName,
+          directory,
+          materials: files,
+        });
+      } catch(error) {
+        await deleteFile(`${directory}/${fileName}`);
+        setErrorMessage(DEFAULT_FILE_UPLOAD_ERROR_MESSAGE);
+        setError(true);
+      }
     });
   }
 
