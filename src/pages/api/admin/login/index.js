@@ -21,7 +21,6 @@ export default async function handler(req, res) {
           path: "/",
           secure: process.env.NODE_ENV !== "development",
           sameSite: "strict",
-          maxAge: 60 * 5
         });
         res.setHeader("Set-Cookie", authTokenCookie);
         res.status(200).json({ status: 200, message: "Login successful" });

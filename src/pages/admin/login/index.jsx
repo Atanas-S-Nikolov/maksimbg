@@ -10,10 +10,12 @@ export default function Login() {
     try {
       const response = await login({ email, password });
       dispatch(loginReducer());
-      console.log(response)
       return response;
     } catch(error) {
-      console.log(error)
+      const { status, data } = error.response;
+      if (status === 400) {
+        return data;
+      }
     }
   }
   

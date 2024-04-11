@@ -6,6 +6,14 @@
   color: white;
 }
 
+.header img {
+  vertical-align: middle;
+}
+
+.header svg {
+  vertical-align: text-bottom;
+}
+
 .logo_wrapper {
   margin-right: auto;
 }
