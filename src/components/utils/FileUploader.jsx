@@ -11,6 +11,8 @@ import ErrorIcon from "@mui/icons-material/Error";
 
 import { useState } from "react";
 
+import Router from "next/router";
+
 import {
   deleteFile,
   getFilesByDirectory,
@@ -20,12 +22,12 @@ import { updateUniversityMaterials } from "@/services/MaterialsService";
 import { DEFAULT_FILE_UPLOAD_ERROR_MESSAGE } from "@/constants/ErrorMessages";
 
 export default function FileUploader({ university }) {
+  const { universityName, directory } = university;
   const [uploadStarted, setUploadStarted] = useState(false);
   const [uploadFinished, setUploadFinished] = useState(false);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState(DEFAULT_FILE_UPLOAD_ERROR_MESSAGE);
   const [progress, setProgress] = useState(0);
-  const { universityName, directory } = university;
 
   function handleUploadFinished() {
     setError(false);
@@ -38,6 +40,7 @@ export default function FileUploader({ university }) {
           directory,
           materials: files,
         });
+        Router.reload();
       } catch(error) {
         await deleteFile(`${directory}/${fileName}`);
         setErrorMessage(DEFAULT_FILE_UPLOAD_ERROR_MESSAGE);

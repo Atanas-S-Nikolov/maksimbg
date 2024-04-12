@@ -7,7 +7,7 @@ export function encodeJWT(payload) {
   return new SignJWT(payload)
     .setProtectedHeader({ alg: algorithm })
     .setIssuedAt()
-    .setExpirationTime("5 sec from now")
+    .setExpirationTime("5 min from now")
     .sign(secret);
 }
 

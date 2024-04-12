@@ -4,7 +4,7 @@ import { executeAuthenticatedRequest } from "@/utils/ApiUtils";
 
 export async function register(admin) {
   const response = await axios.post(REGISTER_URL, JSON.stringify(admin));
-  return await response.data;
+  return response.data;
 }
 
 export async function login(admin) {
