@@ -9,6 +9,8 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+
 import { validateEmail } from "@/validation/EmailValidator";
 import { validatePassword } from "@/validation/PasswordValidator";
 import SnackbarAlert from "./SnackbarAlert";
@@ -25,6 +27,7 @@ export default function AuthForm({ action }) {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState(SUCCESS_SEVERITY);
+  const router = useRouter();
 
   useEffect(() => {
     const hasNoErrors = !emailError && !passwordError;
@@ -72,6 +75,10 @@ export default function AuthForm({ action }) {
 
   async function handleAction() {
     const { status, message } = await onClick(email, password);
+    if (status === 200 || status === 201) {
+      router.push("/");
+      return;
+    }
     setSnackbarMessage(message);
     setSnackbarSeverity(status > 201 ? ERROR_SEVERITY : SUCCESS_SEVERITY);
     handleSnackbarOpen();

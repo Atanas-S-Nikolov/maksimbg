@@ -1,15 +1,20 @@
 import { MATERIALS_URL } from "@/constants/URLConstants";
 import { backendRequest } from "@/lib/backend";
+import { executeAuthenticatedRequest } from "@/utils/ApiUtils";
 
 export async function updateUniversityMaterials(university) {
-  const response = await backendRequest.put(
-    MATERIALS_URL,
-    JSON.stringify(university)
+  const response = await executeAuthenticatedRequest(() =>
+    backendRequest.put(MATERIALS_URL, JSON.stringify(university))
   );
-  return await response.data;
+  return response?.data;
 }
 
 export async function getUniversities() {
   const response = await backendRequest.get(MATERIALS_URL);
-  return await response.data;
+  return response.data;
+}
+
+export async function getUniversityByName(name) {
+  const response = await backendRequest.get(`${MATERIALS_URL}/${name}`);
+  return response.data;
 }

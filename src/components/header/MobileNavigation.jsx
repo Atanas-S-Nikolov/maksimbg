@@ -13,16 +13,20 @@ import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
-
-import { useState } from "react";
-
 import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
 import KeyboardArrowUpRoundedIcon from "@mui/icons-material/KeyboardArrowUpRounded";
 
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 import { navigationLinks, subMenuLinks } from "@/constants/links";
+import { logout } from "@/services/AdminService";
+import { logoutReducer } from "@/lib/store/slices/authenticationSlice";
 
 export default function MobileNavigation({ anchor, open, onClose }) {
   const [collapseOpen, setCollapseOpen] = useState(false);
+  const { isLoggedIn } = useSelector((state) => state.authentication);
+  const dispatch = useDispatch();
 
   function toggleCollapse() {
     setCollapseOpen((prevState) => !prevState);
@@ -33,6 +37,11 @@ export default function MobileNavigation({ anchor, open, onClose }) {
       toggleCollapse();
     }
     onClose();
+  }
+
+  async function handleLogout() {
+    await logout();
+    dispatch(logoutReducer());
   }
 
   function renderList() {
@@ -81,6 +90,13 @@ export default function MobileNavigation({ anchor, open, onClose }) {
               </ListItem>
             </Fragment>
           ))}
+          {isLoggedIn ? (
+            <ListItem className={styles.logout_list_button} disableGutters>
+              <ListItemButton onClick={handleLogout}>
+                <ListItemText primary="Изход" />
+              </ListItemButton>
+            </ListItem>
+          ) : null}
         </List>
       </Box>
     );

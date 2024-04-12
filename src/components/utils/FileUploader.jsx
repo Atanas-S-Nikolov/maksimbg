@@ -11,7 +11,10 @@ import ErrorIcon from "@mui/icons-material/Error";
 
 import { useState } from "react";
 
+import Router from "next/router";
+
 import {
+  deleteFile,
   getFilesByDirectory,
   uploadFiles,
 } from "@/services/FileUploadService";
@@ -19,23 +22,30 @@ import { updateUniversityMaterials } from "@/services/MaterialsService";
 import { DEFAULT_FILE_UPLOAD_ERROR_MESSAGE } from "@/constants/ErrorMessages";
 
 export default function FileUploader({ university }) {
+  const { universityName, directory } = university;
   const [uploadStarted, setUploadStarted] = useState(false);
   const [uploadFinished, setUploadFinished] = useState(false);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState(DEFAULT_FILE_UPLOAD_ERROR_MESSAGE);
   const [progress, setProgress] = useState(0);
-  const { universityName, directory } = university;
 
   function handleUploadFinished() {
     setError(false);
     setUploadFinished(true);
     getFilesByDirectory(directory).then(async (files) => {
-      console.log(files);
-      await updateUniversityMaterials({
-        universityName,
-        directory,
-        materials: files,
-      });
+      const { fileName } = files[0];
+      try {
+        await updateUniversityMaterials({
+          universityName,
+          directory,
+          materials: files,
+        });
+        Router.reload();
+      } catch(error) {
+        await deleteFile(`${directory}/${fileName}`);
+        setErrorMessage(DEFAULT_FILE_UPLOAD_ERROR_MESSAGE);
+        setError(true);
+      }
     });
   }
 

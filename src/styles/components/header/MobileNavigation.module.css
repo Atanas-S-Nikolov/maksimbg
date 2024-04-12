@@ -17,3 +17,8 @@
 .nested_list_link:active {
   color: var(--primary-color);
 }
+
+.logout_list_button {
+  position: fixed !important;
+  bottom: 0;
+}

@@ -1,13 +1,23 @@
-import { DEFAULT_FILE_UPLOAD_ERROR_MESSAGE, TRY_AGAIN_LATER_FILE_UPLOAD_ERROR_MESSAGE } from "@/constants/ErrorMessages";
+import {
+  DEFAULT_FILE_UPLOAD_ERROR_MESSAGE,
+  TRY_AGAIN_LATER_FILE_UPLOAD_ERROR_MESSAGE,
+} from "@/constants/ErrorMessages";
 import { storage } from "../../firebaseConfig";
 import {
   ref,
   uploadBytesResumable,
   getDownloadURL,
   listAll,
+  deleteObject,
 } from "firebase/storage";
 
-export function uploadFiles(files, directory, onProgressUpdate, onFinished, onError) {
+export function uploadFiles(
+  files,
+  directory,
+  onProgressUpdate,
+  onFinished,
+  onError
+) {
   return Array.from(files).map((file) => {
     const metadata = {
       contentType: file.type,
@@ -35,7 +45,10 @@ export function uploadFiles(files, directory, onProgressUpdate, onFinished, onEr
           }
         },
         (error) => {
-          if (error.code === "storage/quota-exceeded" || error.code === "storage/retry-limit-exceeded") {
+          if (
+            error.code === "storage/quota-exceeded" ||
+            error.code === "storage/retry-limit-exceeded"
+          ) {
             onError(TRY_AGAIN_LATER_FILE_UPLOAD_ERROR_MESSAGE);
             return;
           }
@@ -51,19 +64,30 @@ export function uploadFiles(files, directory, onProgressUpdate, onFinished, onEr
   });
 }
 
-export async function getFilesByDirectory(directory) {
+export async function getFilesByDirectory(directory, filterFileName = "") {
   const storageRef = ref(storage, directory);
   return await listAll(storageRef)
     .then(async (res) => {
-      const promises = res.items.map((item) => {
-        return new Promise(async (resolve) => {
-          resolve({
-            fileName: item.name,
-            url: await getDownloadURL(item),
+      const promises = res.items
+        .filter((item) => item.name !== filterFileName)
+        .map((item) => {
+          return new Promise(async (resolve) => {
+            resolve({
+              fileName: item.name,
+              url: await getDownloadURL(item),
+            });
           });
         });
-      });
       return await Promise.all(promises);
     })
     .catch((error) => console.log(error));
+}
+
+export async function deleteFile(fileDirectory) {
+  try {
+    const fileRef = ref(storage, fileDirectory);
+    return await deleteObject(fileRef);
+  } catch (error) {
+    console.log(error);
+  }
 }
