@@ -1,17 +1,23 @@
-import Card from '@mui/material/Card';
-import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
+import Card from "@mui/material/Card";
+import CardMedia from "@mui/material/CardMedia";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
 
-import Link from 'next/link';
+import Link from "next/link";
 
-import { useState } from 'react';
+import { useState } from "react";
+import { useMediaQuery } from "@react-hookz/web";
 
 const DEFAULT_ELEVATION = 3;
 
-export default function Post({ post }) {
-  const { title, image, description, date } = post;
+export default function PostPreview({ post }) {
+  const { id, title, image, description, date } = post;
   const [elevation, setElevation] = useState(DEFAULT_ELEVATION);
+  const mobile = useMediaQuery("(max-width: 425px)", {
+    initializeWithValue: false,
+  });
+  const titleVariant = mobile ? "h4" : "h3";
+  const descriptionFontSize = mobile ? ".9rem" : "1rem";
 
   function handleMouseEnter() {
     setElevation(10);
@@ -22,24 +28,21 @@ export default function Post({ post }) {
   }
 
   return (
-    <Link href={`/blog/${title}`}>
+    <Link href={`/blog/post/${id}`}>
       <Card
         elevation={elevation}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <CardMedia
-          component="img"
-          image={image.src}
-          height={600}
-          alt={title}
-        />
+        <CardMedia component="img" image={image.src} height={600} alt={title} />
         <CardContent>
-          <Typography variant='h4'>{title}</Typography>
-          <Typography paragraph>{description}</Typography>
+          <Typography variant={titleVariant}>{title}</Typography>
+          <Typography fontSize={descriptionFontSize} paragraph>
+            {description}
+          </Typography>
           <Typography color="text.secondary">{date}</Typography>
         </CardContent>
       </Card>
     </Link>
-  )
+  );
 }

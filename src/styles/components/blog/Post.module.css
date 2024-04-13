@@ -1,0 +1,10 @@
+.image {
+  border-radius: 5px;
+  margin: 3em 0;
+  filter: grayscale(75%);
+  transition: filter linear 1.25s;
+}
+
+.image:hover {
+  filter: grayscale(0%)
+}
