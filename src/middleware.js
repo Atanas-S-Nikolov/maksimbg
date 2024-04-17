@@ -23,7 +23,6 @@ export async function middleware(request) {
     }
 
     const authorizationHeader = requestHeaders.get(AUTHORIZATION_HEADER);
-    console.log("Authorization header", authorizationHeader);
 
     if (!authorizationHeader?.startsWith(BEARER)) {
       return NextResponse.json({ message: UNAUTHORIZED_ERROR_MESSAGE }, { status: 401 });

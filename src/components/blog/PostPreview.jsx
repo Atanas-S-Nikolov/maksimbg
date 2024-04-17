@@ -11,7 +11,7 @@ import { useMediaQuery } from "@react-hookz/web";
 const DEFAULT_ELEVATION = 3;
 
 export default function PostPreview({ post }) {
-  const { id, title, image, description, date } = post;
+  const { title, image, description, date } = post;
   const [elevation, setElevation] = useState(DEFAULT_ELEVATION);
   const mobile = useMediaQuery("(max-width: 425px)", {
     initializeWithValue: false,
@@ -28,7 +28,7 @@ export default function PostPreview({ post }) {
   }
 
   return (
-    <Link href={`/blog/post/${id}`}>
+    <Link href={`/blog/post/${title}`}>
       <Card
         elevation={elevation}
         onMouseEnter={handleMouseEnter}

@@ -7,7 +7,7 @@ import Image from "next/image";
 import { useMediaQuery } from "@react-hookz/web";
 
 export default function Post({ post }) {
-  const { title, image, text, date } = post;
+  const { title, image, content, date } = post;
   const mobile = useMediaQuery("(max-width: 550px)", {
     initializeWithValue: false,
   });
@@ -42,7 +42,7 @@ export default function Post({ post }) {
         fontSize={textFontSize}
         paragraph
       >
-        {text}
+        {content}
       </Typography>
     </>
   );

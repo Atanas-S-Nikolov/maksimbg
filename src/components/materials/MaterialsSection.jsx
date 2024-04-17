@@ -32,11 +32,12 @@ import { deleteFile, getFilesByDirectory } from "@/services/FileUploadService";
 import { getUniversityByName, updateUniversityMaterials } from "@/services/MaterialsService";
 
 export default function MaterialsSection({ university }) {
-  const { universityName, materials, directory } = university;
+  const { _id, universityName, materials, directory } = university;
   const { isLoggedIn } = useSelector((state) => state.authentication);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [deleteFileName, setDeleteFileName] = useState("");
   const router = useRouter();
+  console.log(_id)
 
   function handleDialogClose() {
     setDialogOpen(false);
