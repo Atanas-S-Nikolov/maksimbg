@@ -7,11 +7,6 @@
   flex: 1;
 }
 
-.image_upload_button {
-  width: fit-content !important;
-  align-self: center;
-}
-
 .wrapper {
   display: grid;
   place-items: center;
@@ -23,6 +18,21 @@
 
 .wrapper * {
   width: 100%;
+}
+
+.image_upload_section {
+  display: grid;
+  place-items: center;
+}
+
+.file_input {
+  display: none;
+}
+
+.post_image {
+  width: 450px;
+  height: 600px;
+  margin-bottom: 3em;
 }
 
 @media (max-width: 900px) {
