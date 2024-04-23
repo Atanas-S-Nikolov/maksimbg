@@ -5,15 +5,21 @@ import CreatePostDialog from "@/components/blog/CreatePostDialog";
 
 import AddIcon from "@mui/icons-material/Add";
 
-import { posts } from "@/constants/Posts";
-
 import { useState } from "react";
 import BottomIconButtonWithTooltip from "@/components/utils/BottomIconButtonWithTooltip";
 import { useSelector } from "react-redux";
+import { getAllPosts } from "@/services/BlogPostService";
+import Alert from "@mui/material/Alert";
 
-export default function Blog() {
+export async function getServerSideProps() {
+  const posts = await getAllPosts();
+  return { props: { posts } };
+}
+
+export default function Blog({ posts }) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const { isLoggedIn } = useSelector((state) => state.authentication);
+  const arePostsEmpty = posts.length === 0;
 
   function handleDialogOpen(event) {
     event.preventDefault();
@@ -26,27 +32,34 @@ export default function Blog() {
   }
 
   return (
-    <section className={styles.blog_section}>
-      {posts.map((post) => (
-        <PostPreview key={post.title} post={post} />
-      ))}
-      {isLoggedIn ? (
-        <BottomIconButtonWithTooltip
-          aria-label="add post"
-          onClick={handleDialogOpen}
-          tooltipProps={{
-            title: "Добави пост",
-            arrow: true,
-            placement: "top-start",
-          }}
-        >
-          <AddIcon />
-        </BottomIconButtonWithTooltip>
+    <>
+      {arePostsEmpty ? (
+        <Alert severity="info" color="secondary">
+          Няма качени постове
+        </Alert>
       ) : null}
+      <section className={styles.blog_section}>
+        {posts.map((post) => (
+          <PostPreview key={post.title} post={post} />
+        ))}
+        {isLoggedIn ? (
+          <BottomIconButtonWithTooltip
+            aria-label="add post"
+            onClick={handleDialogOpen}
+            tooltipProps={{
+              title: "Добави пост",
+              arrow: true,
+              placement: "top-start",
+            }}
+          >
+            <AddIcon />
+          </BottomIconButtonWithTooltip>
+        ) : null}
 
-      {dialogOpen ? (
-        <CreatePostDialog open={dialogOpen} onClose={handleDialogClose} />
-      ) : null}
-    </section>
+        {dialogOpen ? (
+          <CreatePostDialog open={dialogOpen} onClose={handleDialogClose} />
+        ) : null}
+      </section>
+    </>
   );
 }

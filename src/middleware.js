@@ -1,22 +1,45 @@
 import { NextResponse } from "next/server";
-import { ACCESS_TOKEN_COOKIE_NAME, AUTHORIZATION_HEADER, BEARER } from "./constants/AuthConstants";
-import { MATERIALS_URL, PROTECTED_URLS } from "./constants/URLConstants";
+import {
+  ACCESS_TOKEN_COOKIE_NAME,
+  AUTHORIZATION_HEADER,
+  BEARER,
+} from "./constants/AuthConstants";
+import {
+  BLOG_POST_URL,
+  MATERIALS_URL,
+  PROTECTED_URLS,
+} from "./constants/URLConstants";
 import { decodeJWT } from "./utils/JWTUtils";
-import { PUT } from "./constants/RequestMethodConstants";
-import { INTERNAL_SERVER_ERROR_MESSAGE, JWT_EXPIRED_ERROR_CODE, SESSION_EXPIRED_ERROR_MESSAGE, UNAUTHORIZED_ERROR_MESSAGE } from "./constants/ErrorMessages";
+import { DELETE, POST, PUT } from "./constants/RequestMethodConstants";
+import {
+  INTERNAL_SERVER_ERROR_MESSAGE,
+  JWT_EXPIRED_ERROR_CODE,
+  SESSION_EXPIRED_ERROR_MESSAGE,
+  UNAUTHORIZED_ERROR_MESSAGE,
+} from "./constants/ErrorMessages";
 
 export async function middleware(request) {
   const { method, headers, cookies, nextUrl } = request;
   const { pathname } = nextUrl;
   const requestHeaders = new Headers(headers);
   requestHeaders.set("Access-Control-Allow-Origin", "*");
-  requestHeaders.set("Access-Control-Allow-Methods", process.env.CORS_ALLOWED_METHODS);
+  requestHeaders.set(
+    "Access-Control-Allow-Methods",
+    process.env.CORS_ALLOWED_METHODS
+  );
   requestHeaders.set("Referrer-Policy", process.env.CORS_REFERRER_POLICY);
 
   const isProtectedMaterialsEndpoint =
     pathname === MATERIALS_URL && method === PUT;
+  const isProtectedBlogEndpoint =
+    pathname === BLOG_POST_URL &&
+    (method === POST || method === PUT || method === DELETE);
 
-  if (PROTECTED_URLS.includes(pathname) || isProtectedMaterialsEndpoint) {
+  if (
+    PROTECTED_URLS.includes(pathname) ||
+    isProtectedMaterialsEndpoint ||
+    isProtectedBlogEndpoint
+  ) {
     const accessTokenFromCookies = cookies.get(ACCESS_TOKEN_COOKIE_NAME)?.value;
     if (accessTokenFromCookies) {
       requestHeaders.set(AUTHORIZATION_HEADER, BEARER + accessTokenFromCookies);
@@ -25,7 +48,10 @@ export async function middleware(request) {
     const authorizationHeader = requestHeaders.get(AUTHORIZATION_HEADER);
 
     if (!authorizationHeader?.startsWith(BEARER)) {
-      return NextResponse.json({ message: UNAUTHORIZED_ERROR_MESSAGE }, { status: 401 });
+      return NextResponse.json(
+        { message: UNAUTHORIZED_ERROR_MESSAGE },
+        { status: 401 }
+      );
     }
 
     const accessToken = authorizationHeader.substring(BEARER.length);

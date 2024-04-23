@@ -7,19 +7,16 @@ export default async function handler(req, res) {
   const { url } = query;
   const filterQuery = { url: url };
   switch (method) {
-    case POST:
-      const existingPost = await executeDbCall(() => Post.findOne(filterQuery));
-      if (existingPost) {
-        res.status(404).json({ message: "Post already exists" });
-      }
-      res.status(201).json(await executeDbCall(() => Post.create(body)));
-      break;
     case GET:
       res
         .status(200)
         .json(await executeDbCall(() => Post.findOne(filterQuery)));
       break;
     case PUT:
+      const existingPost = await executeDbCall(() => Post.findOne(filterQuery));
+      if (!existingPost) {
+        res.status(404).json({ message: "Post is not found" });
+      }
       res
         .status(200)
         .json(

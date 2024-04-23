@@ -63,9 +63,9 @@ export default function FileUploader({ university }) {
       uploadFiles(
         files,
         directory,
-        setProgress,
         handleUploadFinished,
-        handleUploadError
+        handleUploadError,
+        setProgress
       );
     }
   }

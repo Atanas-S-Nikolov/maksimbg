@@ -11,7 +11,7 @@ import { useMediaQuery } from "@react-hookz/web";
 const DEFAULT_ELEVATION = 3;
 
 export default function PostPreview({ post }) {
-  const { title, image, description, date } = post;
+  const { title, image, description, date, url } = post;
   const [elevation, setElevation] = useState(DEFAULT_ELEVATION);
   const mobile = useMediaQuery("(max-width: 425px)", {
     initializeWithValue: false,
@@ -28,13 +28,13 @@ export default function PostPreview({ post }) {
   }
 
   return (
-    <Link href={`/blog/post/${title}`}>
+    <Link href={`/blog/post/${url}`}>
       <Card
         elevation={elevation}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <CardMedia component="img" image={image.src} height={600} alt={title} />
+        <CardMedia component="img" image={image.url} height={600} alt={title}/>
         <CardContent>
           <Typography variant={titleVariant}>{title}</Typography>
           <Typography fontSize={descriptionFontSize} paragraph>

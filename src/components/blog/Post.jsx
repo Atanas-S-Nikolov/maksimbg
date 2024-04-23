@@ -5,9 +5,11 @@ import Typography from "@mui/material/Typography";
 import Image from "next/image";
 
 import { useMediaQuery } from "@react-hookz/web";
+import dayjs from "dayjs";
+import { DEFAULT_DATE_FORMAT } from "@/constants/DateConstants";
 
 export default function Post({ post }) {
-  const { title, image, content, date } = post;
+  const { title, image, content, createdOn, updatedOn } = post;
   const mobile = useMediaQuery("(max-width: 550px)", {
     initializeWithValue: false,
   });
@@ -22,15 +24,18 @@ export default function Post({ post }) {
       <Typography variant={titleVariant} color="secondary">
         {title}
       </Typography>
-      <Typography
-        fontSize={textFontSize}
-        marginTop={dateMarginTop}
-      >
-        {date}
+      <Typography fontSize={textFontSize} marginTop={dateMarginTop}>
+        {dayjs(createdOn).format(DEFAULT_DATE_FORMAT)}, Максим Аспарухов
       </Typography>
+      {updatedOn ? (
+        <Typography fontSize={textFontSize} marginTop={dateMarginTop}>
+          Обновен на&nbsp;
+          {dayjs(updatedOn).format(DEFAULT_DATE_FORMAT)}
+        </Typography>
+      ) : null}
       <Image
         className={styles.image}
-        src={image.src}
+        src={image.url}
         alt={title}
         width={imageWidth}
         height={imageHeight}

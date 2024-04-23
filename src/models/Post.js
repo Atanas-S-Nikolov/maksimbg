@@ -7,7 +7,7 @@ const PostSchema = new Schema({
     required: [true, "Post title is required"],
   },
   image: {
-    type: String,
+    type: { fileName: String, url: String },
     required: [true, "Post image url is required"],
   },
   description: {
@@ -24,7 +24,6 @@ const PostSchema = new Schema({
   },
   updatedOn: {
     type: Date,
-    required: [true, "Post updatedOn date is required"],
   },
   url: {
     type: String,
