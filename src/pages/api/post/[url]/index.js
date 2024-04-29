@@ -1,4 +1,4 @@
-import { GET, POST } from "@/constants/RequestMethodConstants";
+import { GET } from "@/constants/RequestMethodConstants";
 import { executeDbCall } from "@/lib/database";
 import Post from "@/models/Post";
 

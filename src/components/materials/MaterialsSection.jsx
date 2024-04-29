@@ -29,7 +29,10 @@ import {
   WORD_AND_TXT_FILE_EXTENSIONS,
 } from "@/constants/FileConstants";
 import { deleteFile, getFilesByDirectory } from "@/services/FileUploadService";
-import { getUniversityByName, updateUniversityMaterials } from "@/services/MaterialsService";
+import {
+  getUniversityByName,
+  updateUniversityMaterials,
+} from "@/services/MaterialsService";
 
 export default function MaterialsSection({ university }) {
   const { universityName, materials, directory } = university;
@@ -51,21 +54,18 @@ export default function MaterialsSection({ university }) {
   async function handleDelete(event) {
     event.preventDefault();
     const existingUniversity = await getUniversityByName(universityName);
+    const files = await getFilesByDirectory(directory, deleteFileName);  
+
     try {
-      const files = await getFilesByDirectory(directory, deleteFileName);
-      const universityResponse = await updateUniversityMaterials({
+      const response = await updateUniversityMaterials({
         universityName,
         directory,
         materials: files,
       });
-      const fileResponse = await deleteFile(`${directory}/${deleteFileName}`);
-      Promise.allSettled([universityResponse, fileResponse])
-        .then((results) => {
-          handleDialogClose();
-          if (!results.includes("rejected")) {
-            router.reload();
-          }
-        })
+      if (response) {
+        await deleteFile(`${directory}/${deleteFileName}`);
+        router.reload();
+      }
     } catch (error) {
       await updateUniversityMaterials(existingUniversity);
     }

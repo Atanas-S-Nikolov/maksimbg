@@ -29,22 +29,30 @@ export default function FileUploader({ university }) {
   const [errorMessage, setErrorMessage] = useState(DEFAULT_FILE_UPLOAD_ERROR_MESSAGE);
   const [progress, setProgress] = useState(0);
 
+  async function rollbackFile(fileName) {
+    await deleteFile(`${directory}/${fileName}`);
+    setErrorMessage(DEFAULT_FILE_UPLOAD_ERROR_MESSAGE);
+    setError(true);
+  }
+
   function handleUploadFinished() {
     setError(false);
     setUploadFinished(true);
     getFilesByDirectory(directory).then(async (files) => {
       const { fileName } = files[0];
       try {
-        await updateUniversityMaterials({
+        const response = await updateUniversityMaterials({
           universityName,
           directory,
           materials: files,
         });
+        if (!response) {
+          await rollbackFile(fileName);
+          return;
+        }
         Router.reload();
       } catch(error) {
-        await deleteFile(`${directory}/${fileName}`);
-        setErrorMessage(DEFAULT_FILE_UPLOAD_ERROR_MESSAGE);
-        setError(true);
+        await rollbackFile(fileName);
       }
     });
   }

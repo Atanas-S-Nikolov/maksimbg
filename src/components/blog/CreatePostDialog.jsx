@@ -147,12 +147,17 @@ export default function CreatePostDialog(props) {
     setErrors({...errors,  creation: { error: true, message }});
   }
 
+  async function rollbackFileUpload(fileDirectory) {
+    await deleteFile(fileDirectory);
+  }
+
   function handleUploadFinished() {
     const createdOn = dayjs().format(DEFAULT_DATE_FORMAT);
     const directory = STORAGE_BLOG_IMAGES_DIRECTORY + postUrl;
+    const fileDirectory = `${directory}/${imageFile.name}`;
     getFilesByDirectory(directory).then(async (files) => {
       try {
-        await createPost({
+        const response = await createPost({
           title,
           description,
           content,
@@ -160,12 +165,15 @@ export default function CreatePostDialog(props) {
           image: files[0],
           url: postUrl,
         });
+        if (!response) {
+          rollbackFileUpload(fileDirectory);
+        }
       } catch (error) {
         const { status, data } = error.response;
         if (status === 409) {
           handleUploadError(data.message);
         }
-        await deleteFile(`${directory}/${imageFile.name}`);
+        await rollbackFileUpload(fileDirectory);
       }
     });
     setLoading(false);
