@@ -4,8 +4,7 @@ import { backendRequest } from "@/lib/backend";
 import { handleUnauthorized } from "@/utils/ApiUtils";
 import { deleteFile } from "./FileUploadService";
 import dayjs from "dayjs";
-
-const IMAGES_DIRECTORY = "images";
+import { STORAGE_BLOG_IMAGES_DIRECTORY } from "@/constants/URLConstants";
 
 export async function createPost(post) {
   try {
@@ -44,11 +43,14 @@ export async function updatePost(url, post) {
   }
 }
 
-export async function deletePost(url) {
+export async function deletePost(post) {
+  const { url, image } = post;
   try {
     const response = await backendRequest.delete(`${BLOG_POST_URL}/${url}`);
-    if (response.ok()) {
-      await deleteFile(`${IMAGES_DIRECTORY}/${url}`);
+    if (response.status === 200) {
+      await deleteFile(
+        `${STORAGE_BLOG_IMAGES_DIRECTORY}${url}/${image.fileName}`
+      );
       return response.data;
     }
   } catch (error) {

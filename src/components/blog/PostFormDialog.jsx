@@ -175,6 +175,7 @@ export default function PostFormDialog(props) {
         if (!response) {
           await deleteFile(fileDirectory);
         }
+        router.reload();
       } catch (error) {
         const { status, data } = error.response;
         if (status === 409) {
