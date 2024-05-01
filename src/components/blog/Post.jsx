@@ -4,11 +4,15 @@ import Typography from "@mui/material/Typography";
 
 import Image from "next/image";
 
+import PostActions from "../utils/PostActions";
+
 import { useMediaQuery } from "@react-hookz/web";
 import dayjs from "dayjs";
 import { DEFAULT_DATE_FORMAT } from "@/constants/DateConstants";
+import { useSelector } from "react-redux";
 
 export default function Post({ post }) {
+  const { isLoggedIn } = useSelector((state) => state.authentication);
   const { title, image, content, createdOn, updatedOn } = post;
   const mobile = useMediaQuery("(max-width: 550px)", {
     initializeWithValue: false,
@@ -21,6 +25,7 @@ export default function Post({ post }) {
 
   return (
     <>
+      {isLoggedIn ? <PostActions post={post} /> : null}
       <Typography variant={titleVariant} color="secondary">
         {title}
       </Typography>

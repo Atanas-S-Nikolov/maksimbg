@@ -32,7 +32,7 @@ export async function middleware(request) {
   const isProtectedMaterialsEndpoint =
     pathname === MATERIALS_URL && method === PUT;
   const isProtectedBlogEndpoint =
-    pathname === BLOG_POST_URL &&
+    pathname.includes(BLOG_POST_URL) &&
     (method === POST || method === PUT || method === DELETE);
 
   if (

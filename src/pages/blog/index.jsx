@@ -1,7 +1,7 @@
 import styles from "@/styles/pages/blog/Blog.module.css";
 
 import PostPreview from "@/components/blog/PostPreview";
-import CreatePostDialog from "@/components/blog/CreatePostDialog";
+import PostFormDialog from "@/components/blog/PostFormDialog";
 
 import AddIcon from "@mui/icons-material/Add";
 
@@ -55,9 +55,8 @@ export default function Blog({ posts }) {
             <AddIcon />
           </BottomIconButtonWithTooltip>
         ) : null}
-
         {dialogOpen ? (
-          <CreatePostDialog open={dialogOpen} onClose={handleDialogClose} />
+          <PostFormDialog open={dialogOpen} onClose={handleDialogClose} />
         ) : null}
       </section>
     </>

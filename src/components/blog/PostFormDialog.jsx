@@ -20,7 +20,7 @@ import {
   POST_DESCRIPTION_ERROR_MESSAGE,
   POST_TITLE_ERROR_MESSAGE,
 } from "@/constants/ErrorMessages";
-import { createPost } from "@/services/BlogPostService";
+import { createPost, updatePost } from "@/services/BlogPostService";
 import {
   deleteFile,
   getFilesByDirectory,
@@ -31,6 +31,8 @@ import { DEFAULT_DATE_FORMAT } from "@/constants/DateConstants";
 import { STORAGE_BLOG_IMAGES_DIRECTORY } from "@/constants/URLConstants";
 import StyledBackdropLoader from "../styled/StyledBackdropLoader";
 import SnackbarAlert from "../utils/SnackbarAlert";
+import { CREATE_ACTION, EDIT_ACTION } from "@/constants/ActionConstants";
+import { useRouter } from "next/router";
 
 const DESCRIPTION_HELPER_TEXT = "Описание на поста с кратко изречение";
 const DEFAULT_ERROR_OBJECT = { error: false, message: " " };
@@ -41,18 +43,27 @@ const DEFAULT_ERRORS = {
   image: DEFAULT_ERROR_OBJECT,
   creation: DEFAULT_ERROR_OBJECT,
 };
+const DEFAULT_POST = {
+  title: "",
+  description: "",
+  content: "",
+  image: {},
+};
 
-export default function CreatePostDialog(props) {
-  const { onClose } = props;
-  const [imageSrc, setImageSrc] = useState();
+export default function PostFormDialog(props) {
+  const { action = CREATE_ACTION, post = DEFAULT_POST, ...dialogProps } = props;
+  const [imageSrc, setImageSrc] = useState(post.image.url);
   const [imageFile, setImageFile] = useState();
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [content, setContent] = useState("");
+  const [title, setTitle] = useState(post.title);
+  const [description, setDescription] = useState(post.description);
+  const [content, setContent] = useState(post.content);
   const [errors, setErrors] = useState(DEFAULT_ERRORS);
   const [saveBtnDisabled, setSaveBtnDisabled] = useState(true);
   const [postUrl, setPostUrl] = useState();
   const [loading, setLoading] = useState(false);
+  const dialogTitleVerb =
+    action === CREATE_ACTION ? "Създаване" : "Редактиране";
+  const router = useRouter();
 
   useEffect(() => {
     setPostUrl(crypto.randomUUID());
@@ -79,6 +90,7 @@ export default function CreatePostDialog(props) {
   function handleTitleChange(event) {
     event.preventDefault();
     const { value } = event.target;
+    setTitle(value);
     if (isBlank(value)) {
       setErrors({
         ...errors,
@@ -90,12 +102,12 @@ export default function CreatePostDialog(props) {
       ...errors,
       title: DEFAULT_ERROR_OBJECT,
     });
-    setTitle(value);
   }
 
   function handleDescriptionChange(event) {
     event.preventDefault();
     const { value } = event.target;
+    setDescription(value);
     if (isBlank(value)) {
       setErrors({
         ...errors,
@@ -107,12 +119,12 @@ export default function CreatePostDialog(props) {
       ...errors,
       description: DEFAULT_ERROR_OBJECT,
     });
-    setDescription(value);
   }
 
   function handleContentChange(event) {
     event.preventDefault();
     const { value } = event.target;
+    setContent(value);
     if (isBlank(value)) {
       setErrors({
         ...errors,
@@ -124,7 +136,6 @@ export default function CreatePostDialog(props) {
       ...errors,
       content: DEFAULT_ERROR_OBJECT,
     });
-    setContent(value);
   }
 
   function handleImageUploadChange(event) {
@@ -139,16 +150,12 @@ export default function CreatePostDialog(props) {
   }
 
   function resetCreationError() {
-    setErrors({...errors, creation: DEFAULT_ERROR_OBJECT });
+    setErrors({ ...errors, creation: DEFAULT_ERROR_OBJECT });
   }
 
   function handleUploadError(message) {
     setLoading(false);
-    setErrors({...errors,  creation: { error: true, message }});
-  }
-
-  async function rollbackFileUpload(fileDirectory) {
-    await deleteFile(fileDirectory);
+    setErrors({ ...errors, creation: { error: true, message } });
   }
 
   function handleUploadFinished() {
@@ -166,14 +173,14 @@ export default function CreatePostDialog(props) {
           url: postUrl,
         });
         if (!response) {
-          rollbackFileUpload(fileDirectory);
+          await deleteFile(fileDirectory);
         }
       } catch (error) {
         const { status, data } = error.response;
         if (status === 409) {
           handleUploadError(data.message);
         }
-        await rollbackFileUpload(fileDirectory);
+        await deleteFile(fileDirectory);
       }
     });
     setLoading(false);
@@ -186,28 +193,41 @@ export default function CreatePostDialog(props) {
 
     setLoading(true);
 
-    uploadFiles(
-      [imageFile],
-      directory,
-      handleUploadFinished,
-      handleUploadError
-    );
+    if (action === CREATE_ACTION) {
+      uploadFiles(
+        [imageFile],
+        directory,
+        handleUploadFinished,
+        handleUploadError
+      );
+    } else if (action === EDIT_ACTION) {
+      await updatePost(post.url, {
+        ...post,
+        title,
+        description,
+        content,
+      });
+      setLoading(false);
+      setErrors(DEFAULT_ERRORS);
+      dialogProps.onClose();
+      router.reload();
+    }
   }
 
   return (
-    <Dialog fullScreen {...props}>
+    <Dialog fullScreen {...dialogProps}>
       <AppBar className={styles.app_bar}>
         <Toolbar>
           <IconButton
             edge="start"
             color="inherit"
-            onClick={onClose}
+            onClick={dialogProps.onClose}
             aria-label="close"
           >
             <CloseIcon />
           </IconButton>
           <Typography className={styles.title} variant="h6" component="div">
-            Създаване на блог пост
+            {dialogTitleVerb} на блог пост
           </Typography>
           <Button
             autoFocus
@@ -221,36 +241,42 @@ export default function CreatePostDialog(props) {
       </AppBar>
       <div className={styles.wrapper}>
         <TextField
+          id="title"
           label="Заглавие"
           placeholder="Въведи заглавие"
           required
+          value={title}
+          onChange={handleTitleChange}
           error={errors.title?.error}
           helperText={errors.title?.message}
-          onChange={handleTitleChange}
         />
         <TextField
+          id="description"
           label="Описание"
           placeholder="Въведи описание"
           multiline
           rows={2}
           required
+          value={description}
+          onChange={handleDescriptionChange}
           error={errors.description.error}
           helperText={
             errors.description.error
               ? errors.description.message
               : DESCRIPTION_HELPER_TEXT
           }
-          onChange={handleDescriptionChange}
         />
         <TextField
+          id="content"
           label="Съдържание"
           placeholder="Въведи съдържание"
           multiline
           rows={5}
           required
+          value={content}
+          onChange={handleContentChange}
           error={errors.content?.error}
           helperText={errors.content?.message}
-          onChange={handleContentChange}
         />
       </div>
       <section className={styles.image_upload_section}>
