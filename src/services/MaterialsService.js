@@ -1,12 +1,17 @@
 import { MATERIALS_URL } from "@/constants/URLConstants";
 import { backendRequest } from "@/lib/backend";
-import { executeAuthenticatedRequest } from "@/utils/ApiUtils";
+import { handleUnauthorized } from "@/utils/ApiUtils";
 
 export async function updateUniversityMaterials(university) {
-  const response = await executeAuthenticatedRequest(() =>
-    backendRequest.put(MATERIALS_URL, JSON.stringify(university))
-  );
-  return response?.data;
+  try {
+    const response = await backendRequest.put(
+      MATERIALS_URL,
+      JSON.stringify(university)
+    );
+    return response.data;
+  } catch (error) {
+    handleUnauthorized(error);
+  }
 }
 
 export async function getUniversities() {

@@ -14,9 +14,9 @@ import {
 export function uploadFiles(
   files,
   directory,
-  onProgressUpdate,
-  onFinished,
-  onError
+  onFinished = () => {},
+  onError = () => {},
+  onProgressUpdate = () => {}
 ) {
   return Array.from(files).map((file) => {
     const metadata = {
@@ -54,7 +54,7 @@ export function uploadFiles(
           }
           onError(DEFAULT_FILE_UPLOAD_ERROR_MESSAGE);
         },
-        async () => {
+        () => {
           onFinished();
         }
       );

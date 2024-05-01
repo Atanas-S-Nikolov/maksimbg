@@ -14,7 +14,10 @@ import { useRouter } from "next/router";
 import { validateEmail } from "@/validation/EmailValidator";
 import { validatePassword } from "@/validation/PasswordValidator";
 import SnackbarAlert from "./SnackbarAlert";
-import { ERROR_SEVERITY, SUCCESS_SEVERITY } from "@/constants/SeverityConstants";
+import {
+  ERROR_SEVERITY,
+  SUCCESS_SEVERITY,
+} from "@/constants/SeverityConstants";
 
 export default function AuthForm({ action }) {
   const { label, onClick } = action;
@@ -33,9 +36,9 @@ export default function AuthForm({ action }) {
     const hasNoErrors = !emailError && !passwordError;
     const hasInput = email && password;
     if (hasInput && hasNoErrors) {
-      setButtonDisabled(false)
+      setButtonDisabled(false);
     }
-  }, [emailError, passwordError, email, password])
+  }, [emailError, passwordError, email, password]);
 
   function handleSnackbarOpen() {
     setSnackbarOpen(true);

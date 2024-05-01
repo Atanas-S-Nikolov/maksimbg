@@ -1,0 +1,69 @@
+.app_bar {
+  position: relative !important;
+}
+
+.title {
+  margin-left: 2rem !important;
+  flex: 1;
+}
+
+.wrapper {
+  display: grid;
+  place-items: center;
+  gap: 1em;
+  padding: 0 12em;
+  margin: 3em auto;
+  width: 40%;
+}
+
+.wrapper * {
+  width: 100%;
+}
+
+.image_upload_section {
+  display: grid;
+  place-items: center;
+}
+
+.file_input {
+  display: none;
+}
+
+.post_image {
+  width: 450px;
+  height: 600px;
+  margin-bottom: 3em;
+}
+
+@media (max-width: 900px) {
+  .wrapper {
+    padding: 0 6em;
+    width: auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .wrapper {
+    padding: 0 3em;
+  }
+
+  .title {
+    font-size: medium !important;
+  }
+}
+
+@media (max-width: 500px) {
+  .wrapper {
+    padding: 0 1.5em;
+  }
+}
+
+@media (max-width: 400px) {
+  .app_bar {
+    padding-right: 0 !important;
+  }
+
+  .title {
+    margin-left: 0 !important;
+  }
+}
