@@ -1,7 +1,6 @@
 export const navigationLinks = [
   { href: "/materials", text: "Материали за самоподготовка" },
   { href: "/blog", text: "Блог" },
-  { href: "/contacts", text: "Контакти" },
 ];
 
 export const subMenuLinks = [
