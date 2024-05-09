@@ -7,8 +7,11 @@
   margin-top: 0;
 }
 
-.board_img {
-  width: 400px;
+.attribution_text {
+  float: right;
+}
+
+.home_img {
   height: auto;
   aspect-ratio: 1 / 1;
 }

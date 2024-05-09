@@ -8,8 +8,17 @@ import Heading from "@/components/utils/Heading";
 import TextContent from "@/components/utils/TextContent";
 import SubHeading from "@/components/utils/SubHeading";
 
-import biologyBoard from "@/assets/biology-board.jpg";
+import Typography from "@mui/material/Typography";
+
+import homePageImage from "@/assets/home-page-image.jpg";
 import { SITE_NAME } from "@/constants/global";
+import Link from "next/link";
+
+const freepikLink = (
+  <Link href="https://freepik.com" target="_blank" referrerPolicy="no-referrer">
+    Freepik
+  </Link>
+);
 
 export default function Home() {
   return (
@@ -33,12 +42,22 @@ export default function Home() {
             по-уверени и сигурни в успеха си!
           </TextContent>
         </div>
-        <Image
-          className={styles.board_img}
-          src={biologyBoard}
-          alt="maksim.bg"
-          title={SITE_NAME}
-        />
+        <section>
+          <Image
+            className={styles.home_img}
+            src={homePageImage}
+            alt="maksim.bg"
+            title={SITE_NAME}
+            priority
+          />
+          <Typography
+            className={styles.attribution_text}
+            color="text.secondary"
+            variant="caption"
+          >
+            Designed by {freepikLink}
+          </Typography>
+        </section>
       </section>
       <section className={styles.level_test_section}>
         <SubHeading className={styles.level_test_text}>
