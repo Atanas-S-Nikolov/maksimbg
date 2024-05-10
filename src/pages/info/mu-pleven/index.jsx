@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import Heading from "@/components/utils/Heading";
 
-import muPlevenLogo from "@/assets/mu-pleven-logo.png";
+import muPlevenLogo from "@/assets/info/mu-pleven-logo.png";
 import SubHeading from "@/components/utils/SubHeading";
 import TextContent from "@/components/utils/TextContent";
 

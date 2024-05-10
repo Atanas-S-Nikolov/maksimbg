@@ -5,7 +5,7 @@ import Image from "next/image";
 import Heading from "@/components/utils/Heading";
 import TextContent from "@/components/utils/TextContent";
 
-import suLogo from "@/assets/su-logo.png";
+import suLogo from "@/assets/info/su-logo.png";
 import SubHeading from "@/components/utils/SubHeading";
 import AccentText from "@/components/utils/AccentText";
 

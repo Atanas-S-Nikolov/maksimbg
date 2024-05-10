@@ -1,0 +1,5 @@
+.test_section {
+  display: grid;
+  gap: 2em;
+  margin-top: 2em;
+}

@@ -2,7 +2,7 @@ import styles from "@/styles/pages/info/University.module.css";
 
 import Image from "next/image";
 
-import muLogo from "@/assets/mu-logo.png";
+import muLogo from "@/assets/info/mu-logo.png";
 
 import Heading from "@/components/utils/Heading";
 import SubHeading from "@/components/utils/SubHeading";
