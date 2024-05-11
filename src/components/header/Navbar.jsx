@@ -12,8 +12,7 @@ import IconButton from "@mui/material/IconButton";
 
 import MobileNavigation from "./MobileNavigation";
 
-import { useRef, useState } from "react";
-import { useMediaQuery, useUpdateEffect } from "@react-hookz/web";
+import { useEffect, useRef, useState } from "react";
 
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
@@ -24,6 +23,7 @@ import { navigationLinks, subMenuLinks } from "@/constants/links";
 import logo from "@/assets/logo.svg";
 import { SITE_NAME } from "@/constants/global";
 import StylledLogoutButton from "../styled/StyledLogoutButton";
+import { useMediaQuery } from "@mui/material";
 
 export default function Navbar() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -31,7 +31,7 @@ export default function Navbar() {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const navRef = useRef(null);
   const md = useMediaQuery("(max-width: 1140px)", {
-    initializeWithValue: false,
+    defaultMatches: false,
   });
 
   function closeNav() {
@@ -63,7 +63,7 @@ export default function Navbar() {
     closeSubmenu();
   }
 
-  useUpdateEffect(() => {
+  useEffect(() => {
     if (md) {
       closeNav();
       return;

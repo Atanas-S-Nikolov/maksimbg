@@ -3,3 +3,13 @@
   gap: 2em;
   margin-top: 2em;
 }
+
+.submit_button {
+ margin-top: 2em !important; 
+}
+
+@media (max-width: 425px) {
+  .title {
+    font-size: large;
+  }
+}

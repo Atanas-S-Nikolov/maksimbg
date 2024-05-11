@@ -1,12 +1,12 @@
 import styles from "@/styles/components/utils/Question.module.css";
 
-import Typography from "@mui/material/Typography";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import Image from "next/image";
+import QuestionTypography from "./QuestionTypography";
 
 export default function Question({ question, questionNumber }) {
   const { questionText, suptext, subtext, answers, image } = question;
@@ -14,9 +14,9 @@ export default function Question({ question, questionNumber }) {
   function renderQuestion() {
     return (
       <>
-        <Typography className={styles.question_text}>
+        <QuestionTypography className={styles.question_text}>
           {`${questionNumber}. ${questionText}`}
-        </Typography>
+        </QuestionTypography>
       </>
     );
   }
@@ -25,12 +25,16 @@ export default function Question({ question, questionNumber }) {
     return (
       <>
         <span className={styles.suptext_wrapper}>
-          <Typography className={styles.question_text}>
+          <QuestionTypography className={styles.question_text}>
             {questionNumber}.
-          </Typography>
-          <Typography className={styles.suptext}>{suptext}</Typography>
+          </QuestionTypography>
+          <QuestionTypography className={styles.suptext}>
+            {suptext}
+          </QuestionTypography>
         </span>
-        <Typography className={styles.question_text}>{questionText}</Typography>
+        <QuestionTypography className={styles.question_text}>
+          {questionText}
+        </QuestionTypography>
       </>
     );
   }
@@ -39,7 +43,9 @@ export default function Question({ question, questionNumber }) {
     return (
       <>
         {renderQuestion()}
-        <Typography className={styles.subtext}>{subtext}</Typography>
+        <QuestionTypography className={styles.subtext}>
+          {subtext}
+        </QuestionTypography>
       </>
     );
   }
@@ -67,10 +73,9 @@ export default function Question({ question, questionNumber }) {
           {answers.map((answer, index) => (
             <FormControlLabel
               key={index}
-              className={styles.answer_label}
               value={index}
               control={<Radio color="secondary" />}
-              label={answer}
+              label={<QuestionTypography>{answer}</QuestionTypography>}
             />
           ))}
         </RadioGroup>

@@ -1,4 +1,4 @@
-import { styled } from "@mui/material";
+import { styled, useMediaQuery } from "@mui/material";
 
 import SpeedDial from "@mui/material/SpeedDial";
 import SpeedDialAction from "@mui/material/SpeedDialAction";
@@ -13,7 +13,6 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useState } from "react";
-import { useMediaQuery } from "@react-hookz/web";
 import PostFormDialog from "../blog/PostFormDialog";
 import { EDIT_ACTION } from "@/constants/ActionConstants";
 import { deletePost } from "@/services/BlogPostService";
@@ -35,7 +34,7 @@ export default function PostActions({ post }) {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const router = useRouter();
   const sm = useMediaQuery("(max-width: 770px)", {
-    initializeWithValue: false,
+    defaultMatches: false,
   });
   const size = sm ? "small" : "medium";
 

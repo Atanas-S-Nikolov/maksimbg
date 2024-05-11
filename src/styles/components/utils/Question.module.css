@@ -8,10 +8,6 @@
   justify-content: space-between;
 }
 
-.answer_label {
-  width: fit-content;
-}
-
 .answer_image {
   width: 300px;
   height: auto;
@@ -32,4 +28,17 @@
 .subtext {
   white-space: pre-wrap;
   margin: .5em 0 !important;
+}
+
+@media (max-width: 1000px) {
+  .answer_image {
+    width: 200px;
+    max-height: 150px;
+  }
+}
+
+@media (max-width: 500px) {
+  .answers_section {
+    flex-direction: column-reverse;
+  }
 }

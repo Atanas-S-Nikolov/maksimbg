@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import Link from "next/link";
 
 import { useState } from "react";
-import { useMediaQuery } from "@react-hookz/web";
+import { useMediaQuery } from "@mui/material";
 
 const DEFAULT_ELEVATION = 3;
 
@@ -14,7 +14,7 @@ export default function PostPreview({ post }) {
   const { title, image, description, date, url } = post;
   const [elevation, setElevation] = useState(DEFAULT_ELEVATION);
   const mobile = useMediaQuery("(max-width: 425px)", {
-    initializeWithValue: false,
+    defaultMatches: false,
   });
   const titleVariant = mobile ? "h4" : "h3";
   const descriptionFontSize = mobile ? ".9rem" : "1rem";
