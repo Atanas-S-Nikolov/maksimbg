@@ -1,3 +1,35 @@
 .question_text {
-  font-weight: bold;
+  font-weight: bold !important;
+  color: var(--secondary-color);
+}
+
+.answers_section {
+  display: flex;
+  justify-content: space-between;
+}
+
+.answer_label {
+  width: fit-content;
+}
+
+.answer_image {
+  width: 300px;
+  height: auto;
+  max-height: 250px;
+  margin-right: 3em;
+}
+
+.suptext_wrapper {
+  display: flex;
+  gap: .5em;
+}
+
+.suptext {
+  font-style: italic;
+  margin-bottom: .5em !important;
+}
+
+.subtext {
+  white-space: pre-wrap;
+  margin: .5em 0 !important;
 }

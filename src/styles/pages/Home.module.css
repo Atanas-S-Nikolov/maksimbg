@@ -8,6 +8,7 @@
 }
 
 .attribution_text {
+  margin-top: -1em !important;
   float: right;
 }
 
