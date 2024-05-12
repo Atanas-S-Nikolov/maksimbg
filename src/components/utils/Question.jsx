@@ -5,11 +5,25 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
+
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
+
 import Image from "next/image";
+
 import QuestionTypography from "./QuestionTypography";
 
-export default function Question({ question, questionNumber }) {
-  const { questionText, suptext, subtext, answers, image } = question;
+import { useState } from "react";
+
+export default function Question({ question, questionNumber, testOver, onAnswerChange }) {
+  const { questionText, suptext, subtext, answers, image, correctAnswerIndex } = question;
+  const [selectedAnswer, setSelectedAnswer] = useState();
+
+  function handleAnswerChange(event) {
+    const { value } = event.target;
+    onAnswerChange(questionNumber, value === correctAnswerIndex);
+    setSelectedAnswer(parseInt(event.target.value));
+  }
 
   function renderQuestion() {
     return (
@@ -69,15 +83,30 @@ export default function Question({ question, questionNumber }) {
         <RadioGroup
           aria-labelledby="question-label"
           name="question-buttons-group"
+          onChange={handleAnswerChange}
         >
-          {answers.map((answer, index) => (
-            <FormControlLabel
-              key={index}
-              value={index}
-              control={<Radio color="secondary" />}
-              label={<QuestionTypography>{answer}</QuestionTypography>}
-            />
-          ))}
+          {answers.map((answer, index) => {
+            let RadioButton = <Radio color="secondary" disabled={testOver} />;
+            let color = "inherit";
+            if (testOver) {
+              if (correctAnswerIndex === index) {
+                color = "primary";
+                RadioButton = <Radio checked checkedIcon={<CheckCircleIcon />} color={color} />
+              } else if (selectedAnswer === index && selectedAnswer !== correctAnswerIndex) {
+                color = "error";
+                RadioButton = <Radio checked checkedIcon={<CancelIcon />} color={color} />
+              }
+            }
+
+            return (
+              <FormControlLabel
+                key={index}
+                value={index}
+                control={RadioButton}
+                label={<QuestionTypography color={color}>{answer}</QuestionTypography>}
+              />
+            );
+          })}
         </RadioGroup>
         {image ? (
           <Image

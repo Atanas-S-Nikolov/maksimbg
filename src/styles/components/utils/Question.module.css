@@ -20,6 +20,10 @@
   gap: .5em;
 }
 
+.suptext, .subtext {
+  color: var(--text-secondary-color);
+}
+
 .suptext {
   font-style: italic;
   margin-bottom: .5em !important;

@@ -15,7 +15,7 @@ export const QUESTIONS = [
       "O, N, Zn, C",
       "N, P, B, O"
     ],
-    correctAnswerId: 1
+    correctAnswerIndex: 1
   },
   {
     questionText: "Холестеролът, за разлика от тестостерона, е:",
@@ -25,7 +25,7 @@ export const QUESTIONS = [
       "неразтворим във вода",
       "в плазмалемата на животинска клетка"
     ],
-    correctAnswerId: 3
+    correctAnswerIndex: 3
   },
   {
     questionText: "Основна структурна единица на хроматина е:",
@@ -35,7 +35,7 @@ export const QUESTIONS = [
       "нуклозидът",
       "нуклеозомата"
     ],
-    correctAnswerId: 3
+    correctAnswerIndex: 3
   },
   {
     questionText: "Калиево-натриевата помпа е белтък, който:",
@@ -45,7 +45,7 @@ export const QUESTIONS = [
       "не използва АТФ за функционирането",
       "транспортира вещества по посока на концентрационния градиент"
     ],
-    correctAnswerId: 1
+    correctAnswerIndex: 1
   },
   {
     questionText: "В цикъла на Кребс:",
@@ -55,7 +55,7 @@ export const QUESTIONS = [
       "се осъществява окислително фосфорилиране",
       "се възстановява оксалоцетната киселина"
     ],
-    correctAnswerId: 3
+    correctAnswerIndex: 3
   },
   {
     questionText: "При процеса, означен на фигурата с цифра 2, молекулата се:",
@@ -65,7 +65,7 @@ export const QUESTIONS = [
       "денатурира",
       "ренатурира"
     ],
-    correctAnswerId: 3,
+    correctAnswerIndex: 3,
     image: image1
   },
   {
@@ -76,7 +76,7 @@ export const QUESTIONS = [
       "обезвреждат токсични вещества",
       "нарастват при хетерофагия и автофагия"
     ],
-    correctAnswerId: 3
+    correctAnswerIndex: 3
   },
   {
     questionText: "Делителният апарат в клетките на висшите растения, за разлика от този в животинските клетки, НЕ включва:",
@@ -86,7 +86,7 @@ export const QUESTIONS = [
       "полюсни нишки",
       "кинетохорни нишки"
     ],
-    correctAnswerId: 0,
+    correctAnswerIndex: 0,
   },
   {
     questionText: "Изображението показва отклонения от нормалното развитие на жлеза в човешкото тяло. Възможна причина за това е недостиг на химичния елемент:",
@@ -96,7 +96,7 @@ export const QUESTIONS = [
       "Na",
       "Fe"
     ],
-    correctAnswerId: 0,
+    correctAnswerIndex: 0,
     image: image2
   },
   {
@@ -107,7 +107,7 @@ export const QUESTIONS = [
       "конексоните",
       "синапсите"
     ],
-    correctAnswerId: 0,
+    correctAnswerIndex: 0,
   },
   {
     questionText: "Резултат от клетъчната диференциация е:",
@@ -117,7 +117,7 @@ export const QUESTIONS = [
       "образуването на нови клетъчни популации",
       "появата на тумори"
     ],
-    correctAnswerId: 0,
+    correctAnswerIndex: 0,
   },
   {
     questionText: "Стадий какавида се наблюдава при:",
@@ -127,7 +127,7 @@ export const QUESTIONS = [
       "непълната метаморфоза",
       "пълната метаморфоза"
     ],
-    correctAnswerId: 3,
+    correctAnswerIndex: 3,
   },
   {
     questionText: "Транспирацията при растенията се осъществява с участието на структурите, означени с цифра:",
@@ -137,7 +137,7 @@ export const QUESTIONS = [
       "3",
       "4"
     ],
-    correctAnswerId: 0,
+    correctAnswerIndex: 0,
     image: image3
   },
   {
@@ -148,7 +148,7 @@ export const QUESTIONS = [
       "AaBb x aabb",
       "ААBb x aabb"
     ],
-    correctAnswerId: 2,
+    correctAnswerIndex: 2,
   },
   {
     questionText: "Какъв начин на размножаване е илюстриран на схемата?",
@@ -158,7 +158,7 @@ export const QUESTIONS = [
       "клониране",
       "полово"
     ],
-    correctAnswerId: 2,
+    correctAnswerIndex: 2,
     image: image4
   },
   {
@@ -169,7 +169,7 @@ export const QUESTIONS = [
       "3 → 2 → 1",
       "2 → 1 → 3"
     ],
-    correctAnswerId: 2,
+    correctAnswerIndex: 2,
     image: image5
   },
   {
@@ -180,7 +180,7 @@ export const QUESTIONS = [
       "щитовидна, панкреас, простата",
       "хипофиза, епифиза, тимус"
     ],
-    correctAnswerId: 3,
+    correctAnswerIndex: 3,
   },
   {
     questionText: "Какъв вид е описаното поведение на възрастните птици?",
@@ -195,7 +195,7 @@ export const QUESTIONS = [
       "родителско",
       "кооперация"
     ],
-    correctAnswerId: 2,
+    correctAnswerIndex: 2,
   },
   {
     questionText: "Монозомия на половите хромозоми е причина за синдрома на:",
@@ -205,7 +205,7 @@ export const QUESTIONS = [
       "Търнър",
       "Едуардс"
     ],
-    correctAnswerId: 2,
+    correctAnswerIndex: 2,
   },
   {
     questionText: "Териториалните групировки на големия синигер се означават като:",
@@ -220,7 +220,7 @@ export const QUESTIONS = [
       "географски популации",
       "екологични популации"
     ],
-    correctAnswerId: 2,
+    correctAnswerIndex: 2,
   },
   {
     questionText: "Коя от екосистемите НЕ може да достигне състояние на климакс?",
@@ -230,7 +230,7 @@ export const QUESTIONS = [
       "океанската",
       "агросистемата"
     ],
-    correctAnswerId: 3,
+    correctAnswerIndex: 3,
   },
   {
     questionText: "Ценогенезата, довела до господството на бозайниците през неозойска ера, е:",
@@ -240,7 +240,7 @@ export const QUESTIONS = [
       "междукамерната преграда",
       "плацентата"
     ],
-    correctAnswerId: 3,
+    correctAnswerIndex: 3,
   },
   {
     questionText: "Какво видообразуване е довело до появата на новия вид пъстрокрилка?",
@@ -253,7 +253,7 @@ export const QUESTIONS = [
       "филетично",
       "паралелно"
     ],
-    correctAnswerId: 1,
+    correctAnswerIndex: 1,
   },
   {
     questionText: "Появата на зебрата, магарето и коня от далечен общ предшественик е пример за:",
@@ -263,7 +263,7 @@ export const QUESTIONS = [
       "дивергенция",
       "коеволюция"
     ],
-    correctAnswerId: 2,
+    correctAnswerIndex: 2,
   },
   {
     questionText: "Кой вид естествен отбор представя моделът?",
@@ -273,7 +273,7 @@ export const QUESTIONS = [
       "стабилизиращ",
       "конституционен"
     ],
-    correctAnswerId: 1,
+    correctAnswerIndex: 1,
     image: image6
   },
   {
@@ -288,7 +288,7 @@ export const QUESTIONS = [
       "1, 2 и 4",
       "1, 2 и 3"
     ],
-    correctAnswerId: 1,
+    correctAnswerIndex: 1,
     image: image7
   },
   {
@@ -300,7 +300,7 @@ export const QUESTIONS = [
       "само 2 и 3",
       "2, 3 и 4"
     ],
-    correctAnswerId: 3,
+    correctAnswerIndex: 3,
   },
   {
     questionText: "Култивирането на млечно-кисели бактерии е в основата на биотехнологичните производства. Важни условия за осъществяването на процеса са:",
@@ -311,7 +311,7 @@ export const QUESTIONS = [
       "1, 2 и 3",
       "2, 3 и 4"
     ],
-    correctAnswerId: 2,
+    correctAnswerIndex: 2,
   },
   {
     questionText: "Вътрехромозомни мутации са:",
@@ -322,7 +322,7 @@ export const QUESTIONS = [
       "1, 2 и 3",
       "2, 3 и 4"
     ],
-    correctAnswerId: 1,
+    correctAnswerIndex: 1,
   },
   {
     questionText: "Молекулни болести са:",
@@ -333,7 +333,7 @@ export const QUESTIONS = [
       "1, 2 и 4",
       "2, 3 и 4"
     ],
-    correctAnswerId: 3,
+    correctAnswerIndex: 3,
   },
   {
     questionText: "Жлези с храносмилателни функции са:",
@@ -344,7 +344,7 @@ export const QUESTIONS = [
       "само 1, 2 и 3",
       "1, 2, 3 и 4"
     ],
-    correctAnswerId: 2,
+    correctAnswerIndex: 2,
   },
   {
     questionText: "При подагра се натрупват кристалчета пикочна киселина в ставите. С кои методи може да бъде диагностицирана болестта?",
@@ -355,7 +355,7 @@ export const QUESTIONS = [
       "само 3 и 4",
       "1, 2 и 3"
     ],
-    correctAnswerId: 1,
+    correctAnswerIndex: 1,
   },
   {
     questionText: "Анализирайте информацията в текста и изберете верните твърдения за настъпилите последствия.",
@@ -374,7 +374,7 @@ export const QUESTIONS = [
       "1, 3 и 4",
       "2, 3 и 4"
     ],
-    correctAnswerId: 1,
+    correctAnswerIndex: 1,
   },
   {
     questionText: "Появата на кои от органелите в еукариотната клетка се обясняват с инвагинационната хипотеза?",
@@ -385,7 +385,7 @@ export const QUESTIONS = [
       "2 и 3",
       "3 и 4"
     ],
-    correctAnswerId: 1,
+    correctAnswerIndex: 1,
   },
   {
     questionText: "Кои фактори ще повлияят бъдещата еволюция на човека?",
@@ -396,6 +396,6 @@ export const QUESTIONS = [
       "само 1, 2 и 3",
       "1, 2, 3, 4"
     ],
-    correctAnswerId: 0,
+    correctAnswerIndex: 0,
   },
 ];
