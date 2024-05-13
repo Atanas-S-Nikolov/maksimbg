@@ -4,12 +4,25 @@
   margin-top: 2em;
 }
 
-.submit_button {
- margin-top: 2em !important; 
+.test_actions_section {
+  display: flex;
+  gap: 1em;
+  margin-top: 2em; 
+}
+
+.results_section {
+  margin-top: 5em;
+  text-align: center;
+}
+
+@media (max-width: 500px) {
+  .test_actions_section {
+    flex-direction: column;
+  }
 }
 
 @media (max-width: 425px) {
   .title {
-    font-size: large;
+    font-size: medium !important;
   }
 }

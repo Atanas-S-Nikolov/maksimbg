@@ -6,8 +6,8 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import CancelIcon from '@mui/icons-material/Cancel';
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CancelIcon from "@mui/icons-material/Cancel";
 
 import Image from "next/image";
 
@@ -15,20 +15,33 @@ import QuestionTypography from "./QuestionTypography";
 
 import { useState } from "react";
 
-export default function Question({ question, questionNumber, testOver, onAnswerChange }) {
-  const { questionText, suptext, subtext, answers, image, correctAnswerIndex } = question;
+export default function Question({
+  question,
+  questionNumber,
+  testOver,
+  onAnswerChange,
+}) {
+  const { questionText, suptext, subtext, answers, image, correctAnswerIndex } =
+    question;
   const [selectedAnswer, setSelectedAnswer] = useState();
+  const answerIsSelected = selectedAnswer === undefined;
+  const answerIsIncorrect = selectedAnswer !== correctAnswerIndex;
+  const questionColor =
+    testOver && (answerIsSelected || answerIsIncorrect) ? "error" : "secondary";
 
   function handleAnswerChange(event) {
-    const { value } = event.target;
+    const value = parseInt(event.target.value);
     onAnswerChange(questionNumber, value === correctAnswerIndex);
-    setSelectedAnswer(parseInt(event.target.value));
+    setSelectedAnswer(parseInt(value));
   }
 
   function renderQuestion() {
     return (
       <>
-        <QuestionTypography className={styles.question_text}>
+        <QuestionTypography
+          className={styles.question_text}
+          color={questionColor}
+        >
           {`${questionNumber}. ${questionText}`}
         </QuestionTypography>
       </>
@@ -39,14 +52,20 @@ export default function Question({ question, questionNumber, testOver, onAnswerC
     return (
       <>
         <span className={styles.suptext_wrapper}>
-          <QuestionTypography className={styles.question_text}>
+          <QuestionTypography
+            className={styles.question_text}
+            color={questionColor}
+          >
             {questionNumber}.
           </QuestionTypography>
-          <QuestionTypography className={styles.suptext}>
+          <QuestionTypography className={styles.suptext} color={questionColor}>
             {suptext}
           </QuestionTypography>
         </span>
-        <QuestionTypography className={styles.question_text}>
+        <QuestionTypography
+          className={styles.question_text}
+          color={questionColor}
+        >
           {questionText}
         </QuestionTypography>
       </>
@@ -57,7 +76,7 @@ export default function Question({ question, questionNumber, testOver, onAnswerC
     return (
       <>
         {renderQuestion()}
-        <QuestionTypography className={styles.subtext}>
+        <QuestionTypography className={styles.subtext} color={questionColor}>
           {subtext}
         </QuestionTypography>
       </>
@@ -91,10 +110,21 @@ export default function Question({ question, questionNumber, testOver, onAnswerC
             if (testOver) {
               if (correctAnswerIndex === index) {
                 color = "primary";
-                RadioButton = <Radio checked checkedIcon={<CheckCircleIcon />} color={color} />
-              } else if (selectedAnswer === index && selectedAnswer !== correctAnswerIndex) {
+                RadioButton = (
+                  <Radio
+                    checked
+                    checkedIcon={<CheckCircleIcon />}
+                    color={color}
+                  />
+                );
+              } else if (
+                selectedAnswer === index &&
+                selectedAnswer !== correctAnswerIndex
+              ) {
                 color = "error";
-                RadioButton = <Radio checked checkedIcon={<CancelIcon />} color={color} />
+                RadioButton = (
+                  <Radio checked checkedIcon={<CancelIcon />} color={color} />
+                );
               }
             }
 
@@ -103,7 +133,11 @@ export default function Question({ question, questionNumber, testOver, onAnswerC
                 key={index}
                 value={index}
                 control={RadioButton}
-                label={<QuestionTypography color={color}>{answer}</QuestionTypography>}
+                label={
+                  <QuestionTypography color={color}>
+                    {answer}
+                  </QuestionTypography>
+                }
               />
             );
           })}
