@@ -14,14 +14,30 @@ import { useMediaQuery } from "@mui/material";
 export default function Post({ post }) {
   const { isLoggedIn } = useSelector((state) => state.authentication);
   const { title, image, content, createdOn, updatedOn } = post;
-  const mobile = useMediaQuery("(max-width: 550px)", {
+  const laptopS = useMediaQuery("(max-width: 800px)", {
     defaultMatches: false,
   });
-  const titleVariant = mobile ? "h4" : "h3";
-  const textFontSize = mobile ? ".9rem" : "1rem";
-  const dateMarginTop = mobile ? "1em" : "2em";
-  const imageWidth = mobile ? 400 : 600;
-  const imageHeight = mobile ? 600 : 800;
+  const mobileL = useMediaQuery("(max-width: 450px)", {
+    defaultMatches: false,
+  });
+  const laptopTitleVariant = laptopS ? "h4" : "h3";
+  const titleVariant = mobileL ? "h5" : laptopTitleVariant;
+  const textFontSize = laptopS ? ".9rem" : "1rem";
+  const dateMarginTop = laptopS ? "1em" : "2em";
+  const laptopImageWidth = laptopS ? 400 : 600;
+  const laptopImageHeight = laptopS ? 600 : 800;
+  const imageWidth = mobileL ? 250 : laptopImageWidth;
+  const imageHeight = mobileL ? 450 : laptopImageHeight;
+
+  const DateTypography = (props) => (
+    <Typography
+      fontSize={textFontSize}
+      marginTop={dateMarginTop}
+      fontStyle="italic"
+      color="text.secondary"
+      {...props}
+    />
+  );
 
   return (
     <>
@@ -29,14 +45,14 @@ export default function Post({ post }) {
       <Typography variant={titleVariant} color="secondary">
         {title}
       </Typography>
-      <Typography fontSize={textFontSize} marginTop={dateMarginTop}>
+      <DateTypography>
         {dayjs(createdOn).format(DEFAULT_DATE_FORMAT)}, Максим Аспарухов
-      </Typography>
+      </DateTypography>
       {updatedOn ? (
-        <Typography fontSize={textFontSize} marginTop={dateMarginTop}>
+        <DateTypography>
           Обновен на&nbsp;
           {dayjs(updatedOn).format(DEFAULT_DATE_FORMAT)}
-        </Typography>
+        </DateTypography>
       ) : null}
       <Image
         className={styles.image}
