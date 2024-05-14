@@ -6,16 +6,16 @@ import Image from "next/image";
 
 import PostActions from "../utils/PostActions";
 
-import { useMediaQuery } from "@react-hookz/web";
 import dayjs from "dayjs";
 import { DEFAULT_DATE_FORMAT } from "@/constants/DateConstants";
 import { useSelector } from "react-redux";
+import { useMediaQuery } from "@mui/material";
 
 export default function Post({ post }) {
   const { isLoggedIn } = useSelector((state) => state.authentication);
   const { title, image, content, createdOn, updatedOn } = post;
   const mobile = useMediaQuery("(max-width: 550px)", {
-    initializeWithValue: false,
+    defaultMatches: false,
   });
   const titleVariant = mobile ? "h4" : "h3";
   const textFontSize = mobile ? ".9rem" : "1rem";

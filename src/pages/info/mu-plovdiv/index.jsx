@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import Heading from "@/components/utils/Heading";
 
-import muPlovdivLogo from "@/assets/mu-plovdiv-logo.svg";
+import muPlovdivLogo from "@/assets/info/mu-plovdiv-logo.svg";
 import SubHeading from "@/components/utils/SubHeading";
 import TextContent from "@/components/utils/TextContent";
 

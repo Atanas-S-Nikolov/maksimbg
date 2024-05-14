@@ -4,7 +4,7 @@ import Heading from "@/components/utils/Heading";
 import TextContent from "@/components/utils/TextContent";
 import Image from "next/image";
 
-import muVarnaLogo from "@/assets/mu-varna-logo.png";
+import muVarnaLogo from "@/assets/info/mu-varna-logo.png";
 
 const name = "Медицински университет - Варна";
 

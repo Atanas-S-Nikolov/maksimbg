@@ -6,7 +6,7 @@ import Icon from "@mui/material/Icon";
 
 import { SITE_NAME } from "@/constants/global";
 import Link from "next/link";
-import { useMediaQuery } from "@react-hookz/web";
+import { useMediaQuery } from "@mui/material";
 
 const EMAIL = "Имейл";
 const PHONE = "Телефон за връзка";
@@ -23,10 +23,10 @@ const contacts = [
 export default function Footer() {
   const currentYear = new Date().getFullYear();
   const mobileS = useMediaQuery("(max-width: 321px)", {
-    initializeWithValue: false,
+    defaultMatches: false,
   });
   const tablet = useMediaQuery("(max-width: 750px)", {
-    initializeWithValue: false,
+    defaultMatches: false,
   });
   const iconFontSize = mobileS ? "medium" : "large";
   const copyrightTextFontSize = tablet ? "small" : "medium";
