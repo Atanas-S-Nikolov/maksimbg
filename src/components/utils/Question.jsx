@@ -24,15 +24,15 @@ export default function Question({
   const { questionText, suptext, subtext, answers, image, correctAnswerIndex } =
     question;
   const [selectedAnswer, setSelectedAnswer] = useState();
-  const answerIsSelected = selectedAnswer === undefined;
-  const answerIsIncorrect = selectedAnswer !== correctAnswerIndex;
-  const questionColor =
-    testOver && (answerIsSelected || answerIsIncorrect) ? "error" : "secondary";
+  const answerIsSelected = selectedAnswer !== undefined;
+  const answerIsCorrect = selectedAnswer === correctAnswerIndex;
+  let questionColor =
+    !testOver || (answerIsSelected && answerIsCorrect) ? "secondary" : "error";
 
   function handleAnswerChange(event) {
     const value = parseInt(event.target.value);
-    onAnswerChange(questionNumber, value === correctAnswerIndex);
-    setSelectedAnswer(parseInt(value));
+    onAnswerChange(questionNumber, value === correctAnswerIndex, value);
+    setSelectedAnswer(value);
   }
 
   function renderQuestion() {
@@ -107,6 +107,7 @@ export default function Question({
           {answers.map((answer, index) => {
             let RadioButton = <Radio color="secondary" disabled={testOver} />;
             let color = "inherit";
+
             if (testOver) {
               if (correctAnswerIndex === index) {
                 color = "primary";

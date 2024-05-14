@@ -5,24 +5,22 @@
 }
 
 .test_actions_section {
-  display: flex;
-  gap: 1em;
   margin-top: 2em; 
 }
 
 .results_section {
-  margin-top: 5em;
+  display: grid;
+  place-items: center;
+  margin-top: 2em;
   text-align: center;
 }
 
 @media (max-width: 500px) {
-  .test_actions_section {
-    flex-direction: column;
-  }
-}
-
-@media (max-width: 425px) {
   .title {
     font-size: medium !important;
+  }
+
+  .results_section {
+    margin-top: 1em;
   }
 }

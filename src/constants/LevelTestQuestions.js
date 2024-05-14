@@ -3,6 +3,24 @@ import image2 from "@/assets/level-test/image-2.jpg";
 import image3 from "@/assets/level-test/image-3.jpg";
 import image4 from "@/assets/level-test/image-4.jpg";
 
+function getDefaultAnswersResults() {
+  const results = new Map();
+  for (let index = 1; index <= 19; index++) {
+    results.set(index, { questionNumber: index, answerCorrect: false });
+  }
+  return results;
+}
+
+function getDefaultAnswersSelected() {
+  const results = new Map();
+  for (let index = 1; index <= 19; index++) {
+    results.set(index, { questionNumber: index, answerSelected: false });
+  }
+  return results;
+}
+
+export const DEFAULT_ANSWERS_RESULTS = getDefaultAnswersResults();
+export const DEFAULT_ANSWERS_SELECTED = getDefaultAnswersSelected();
 export const QUESTIONS = [
   {
     questionText: "В състава на хиалуроновата киселина участват макроелементите:",
@@ -215,11 +233,3 @@ export const QUESTIONS = [
     correctAnswerIndex: 2,
   },
 ];
-
-export function getDefaultAnswersResults() {
-  const results = new Map();
-  for (let index = 1; index <= 19; index++) {
-    results.set(index, { questionNumber: index, answerCorrect: false });
-  }
-  return results;
-}
