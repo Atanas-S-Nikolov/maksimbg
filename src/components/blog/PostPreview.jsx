@@ -7,17 +7,24 @@ import Link from "next/link";
 
 import { useState } from "react";
 import { useMediaQuery } from "@mui/material";
+import dayjs from "dayjs";
+import { DEFAULT_DATE_FORMAT } from "@/constants/DateConstants";
 
 const DEFAULT_ELEVATION = 3;
 
 export default function PostPreview({ post }) {
-  const { title, image, description, date, url } = post;
+  const { title, image, description, createdOn, updatedOn, url } = post;
+  const date = dayjs(updatedOn ? updatedOn : createdOn).format(
+    DEFAULT_DATE_FORMAT
+  );
   const [elevation, setElevation] = useState(DEFAULT_ELEVATION);
-  const mobile = useMediaQuery("(max-width: 425px)", {
+  const mobileL = useMediaQuery("(max-width: 426px)", {
     defaultMatches: false,
   });
-  const titleVariant = mobile ? "h4" : "h3";
-  const descriptionFontSize = mobile ? ".9rem" : "1rem";
+  const imageHeight = mobileL ? 500 : 600;
+  const titleFontSize = mobileL ? 20 : 24;
+  const descriptionFontSize = mobileL ? ".9rem" : "1rem";
+  const dateFontSize = mobileL ? "small" : 14;
 
   function handleMouseEnter() {
     setElevation(10);
@@ -34,13 +41,30 @@ export default function PostPreview({ post }) {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <CardMedia component="img" image={image.url} height={600} alt={title}/>
+        <CardMedia
+          component="img"
+          image={image.url}
+          height={imageHeight}
+          alt={title}
+        />
         <CardContent>
-          <Typography variant={titleVariant}>{title}</Typography>
-          <Typography fontSize={descriptionFontSize} paragraph>
+          <Typography variant="h6" fontSize={titleFontSize}>
+            {title}
+          </Typography>
+          <Typography
+            fontSize={descriptionFontSize}
+            color="text.secondary"
+            paragraph
+          >
             {description}
           </Typography>
-          <Typography color="text.secondary">{date}</Typography>
+          <Typography
+            variant="subtitle2"
+            color="text.secondary"
+            fontSize={dateFontSize}
+          >
+            {date}
+          </Typography>
         </CardContent>
       </Card>
     </Link>
