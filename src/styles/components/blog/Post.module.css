@@ -3,6 +3,7 @@
   margin: 3em 0;
   filter: grayscale(75%);
   transition: filter linear 1.25s;
+  object-fit: cover;
 }
 
 .image:hover {

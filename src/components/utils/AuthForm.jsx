@@ -102,7 +102,7 @@ export default function AuthForm({ action }) {
           placeholder="Въведи имейл"
           required
           error={!!emailError}
-          helperText={emailError || ""}
+          helperText={emailError || " "}
           onChange={handleEmailChange}
         />
         <TextField
@@ -111,7 +111,7 @@ export default function AuthForm({ action }) {
           type={showPassword ? "text" : "password"}
           required
           error={!!passwordError}
-          helperText={passwordError || ""}
+          helperText={passwordError || " "}
           onChange={handlePasswordChange}
           InputProps={{
             endAdornment: (

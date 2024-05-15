@@ -1,15 +1,15 @@
-import styles from "@/styles/pages/blog/Blog.module.css";
-
 import PostPreview from "@/components/blog/PostPreview";
 import PostFormDialog from "@/components/blog/PostFormDialog";
+import BottomIconButtonWithTooltip from "@/components/utils/BottomIconButtonWithTooltip";
+
+import Alert from "@mui/material/Alert";
+import Grid from "@mui/material/Grid";
 
 import AddIcon from "@mui/icons-material/Add";
 
 import { useState } from "react";
-import BottomIconButtonWithTooltip from "@/components/utils/BottomIconButtonWithTooltip";
 import { useSelector } from "react-redux";
 import { getAllPosts } from "@/services/BlogPostService";
-import Alert from "@mui/material/Alert";
 
 export async function getServerSideProps() {
   const posts = await getAllPosts();
@@ -19,7 +19,7 @@ export async function getServerSideProps() {
 export default function Blog({ posts }) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const { isLoggedIn } = useSelector((state) => state.authentication);
-  const arePostsEmpty = posts.length === 0;
+  const hasPosts = posts.length > 0;
 
   function handleDialogOpen(event) {
     event.preventDefault();
@@ -33,32 +33,34 @@ export default function Blog({ posts }) {
 
   return (
     <>
-      {arePostsEmpty ? (
+      {!hasPosts ? (
         <Alert severity="info" color="secondary">
           Няма качени постове
         </Alert>
       ) : null}
-      <section className={styles.blog_section}>
+      <Grid container spacing={2} columns={{ xs: 4, sm: 6, md: 24 }}>
         {posts.map((post) => (
-          <PostPreview key={post.title} post={post} />
+          <Grid item key={post.title} xs={7}>
+            <PostPreview post={post} />
+          </Grid>
         ))}
-        {isLoggedIn ? (
-          <BottomIconButtonWithTooltip
-            aria-label="add post"
-            onClick={handleDialogOpen}
-            tooltipProps={{
-              title: "Добави пост",
-              arrow: true,
-              placement: "top-start",
-            }}
-          >
-            <AddIcon />
-          </BottomIconButtonWithTooltip>
-        ) : null}
-        {dialogOpen ? (
-          <PostFormDialog open={dialogOpen} onClose={handleDialogClose} />
-        ) : null}
-      </section>
+      </Grid>
+      {isLoggedIn ? (
+        <BottomIconButtonWithTooltip
+          aria-label="add post"
+          onClick={handleDialogOpen}
+          tooltipProps={{
+            title: "Добави пост",
+            arrow: true,
+            placement: "top-start",
+          }}
+        >
+          <AddIcon />
+        </BottomIconButtonWithTooltip>
+      ) : null}
+      {dialogOpen ? (
+        <PostFormDialog open={dialogOpen} onClose={handleDialogClose} />
+      ) : null}
     </>
   );
 }
