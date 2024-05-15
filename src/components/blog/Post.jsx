@@ -22,7 +22,6 @@ export default function Post({ post }) {
   });
   const laptopTitleVariant = laptopS ? "h4" : "h3";
   const titleVariant = mobileL ? "h5" : laptopTitleVariant;
-  const titleMarginBottom = laptopS ? "1em" : "1em";
   const textFontSize = laptopS ? ".9rem" : "1rem";
   const laptopImageWidth = laptopS ? 400 : 600;
   const laptopImageHeight = laptopS ? 600 : 800;
@@ -44,7 +43,7 @@ export default function Post({ post }) {
       <Typography
         variant={titleVariant}
         color="secondary"
-        marginBottom={titleMarginBottom}
+        marginBottom="1em"
       >
         {title}
       </Typography>
