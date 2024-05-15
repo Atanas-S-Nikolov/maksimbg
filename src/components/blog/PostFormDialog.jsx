@@ -26,8 +26,6 @@ import {
   getFilesByDirectory,
   uploadFiles,
 } from "@/services/FileUploadService";
-import dayjs from "dayjs";
-import { DEFAULT_DATE_FORMAT } from "@/constants/DateConstants";
 import { STORAGE_BLOG_IMAGES_DIRECTORY } from "@/constants/URLConstants";
 import StyledBackdropLoader from "../styled/StyledBackdropLoader";
 import SnackbarAlert from "../utils/SnackbarAlert";
@@ -159,7 +157,6 @@ export default function PostFormDialog(props) {
   }
 
   function handleUploadFinished() {
-    const createdOn = dayjs().format(DEFAULT_DATE_FORMAT);
     const directory = STORAGE_BLOG_IMAGES_DIRECTORY + postUrl;
     const fileDirectory = `${directory}/${imageFile.name}`;
     getFilesByDirectory(directory).then(async (files) => {
@@ -168,7 +165,6 @@ export default function PostFormDialog(props) {
           title,
           description,
           content,
-          createdOn,
           image: files[0],
           url: postUrl,
         });

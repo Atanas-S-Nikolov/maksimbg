@@ -1,6 +1,7 @@
 import { GET, PUT, DELETE } from "@/constants/RequestMethodConstants";
 import { executeDbCall } from "@/lib/database";
 import Post from "@/models/Post";
+import dayjs from "dayjs";
 
 export default async function handler(req, res) {
   const { method, body, query } = req;
@@ -17,6 +18,7 @@ export default async function handler(req, res) {
       if (!existingPost) {
         res.status(404).json({ message: "Post is not found" });
       }
+      body.updatedOn = dayjs();
       res
         .status(200)
         .json(

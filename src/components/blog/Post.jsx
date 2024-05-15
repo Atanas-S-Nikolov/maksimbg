@@ -22,8 +22,8 @@ export default function Post({ post }) {
   });
   const laptopTitleVariant = laptopS ? "h4" : "h3";
   const titleVariant = mobileL ? "h5" : laptopTitleVariant;
+  const titleMarginBottom = laptopS ? "1em" : "1em";
   const textFontSize = laptopS ? ".9rem" : "1rem";
-  const dateMarginTop = laptopS ? "1em" : "2em";
   const laptopImageWidth = laptopS ? 400 : 600;
   const laptopImageHeight = laptopS ? 600 : 800;
   const imageWidth = mobileL ? 250 : laptopImageWidth;
@@ -31,10 +31,9 @@ export default function Post({ post }) {
 
   const DateTypography = (props) => (
     <Typography
-      fontSize={textFontSize}
-      marginTop={dateMarginTop}
-      fontStyle="italic"
       color="text.secondary"
+      fontStyle="italic"
+      fontSize={textFontSize}
       {...props}
     />
   );
@@ -42,7 +41,11 @@ export default function Post({ post }) {
   return (
     <>
       {isLoggedIn ? <PostActions post={post} /> : null}
-      <Typography variant={titleVariant} color="secondary">
+      <Typography
+        variant={titleVariant}
+        color="secondary"
+        marginBottom={titleMarginBottom}
+      >
         {title}
       </Typography>
       <DateTypography>
@@ -50,7 +53,7 @@ export default function Post({ post }) {
       </DateTypography>
       {updatedOn ? (
         <DateTypography>
-          Обновен на&nbsp;
+          Обновено на&nbsp;
           {dayjs(updatedOn).format(DEFAULT_DATE_FORMAT)}
         </DateTypography>
       ) : null}
