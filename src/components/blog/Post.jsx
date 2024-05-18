@@ -23,10 +23,9 @@ export default function Post({ post }) {
   const laptopTitleVariant = laptopS ? "h4" : "h3";
   const titleVariant = mobileL ? "h5" : laptopTitleVariant;
   const textFontSize = laptopS ? ".9rem" : "1rem";
-  const laptopImageWidth = laptopS ? 400 : 600;
   const laptopImageHeight = laptopS ? 600 : 800;
-  const imageWidth = mobileL ? 250 : laptopImageWidth;
-  const imageHeight = mobileL ? 450 : laptopImageHeight;
+  const imageWidth = laptopS ? 400 : 600;;
+  const imageHeight = mobileL ? 550 : laptopImageHeight;
 
   const DateTypography = (props) => (
     <Typography

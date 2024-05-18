@@ -58,7 +58,7 @@ export default function Question({
           >
             {questionNumber}.
           </QuestionTypography>
-          <QuestionTypography className={styles.suptext} color={questionColor}>
+          <QuestionTypography className={styles.suptext}>
             {suptext}
           </QuestionTypography>
         </span>
@@ -76,7 +76,7 @@ export default function Question({
     return (
       <>
         {renderQuestion()}
-        <QuestionTypography className={styles.subtext} color={questionColor}>
+        <QuestionTypography className={styles.subtext}>
           {subtext}
         </QuestionTypography>
       </>
