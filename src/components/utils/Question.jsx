@@ -105,13 +105,13 @@ export default function Question({
           onChange={handleAnswerChange}
         >
           {answers.map((answer, index) => {
-            let RadioButton = <Radio color="secondary" disabled={testOver} />;
+            let radioButton = <Radio color="secondary" disabled={testOver} />;
             let color = "inherit";
 
             if (testOver) {
               if (correctAnswerIndex === index) {
                 color = "primary";
-                RadioButton = (
+                radioButton = (
                   <Radio
                     checked
                     checkedIcon={<CheckCircleIcon />}
@@ -123,7 +123,7 @@ export default function Question({
                 selectedAnswer !== correctAnswerIndex
               ) {
                 color = "error";
-                RadioButton = (
+                radioButton = (
                   <Radio checked checkedIcon={<CancelIcon />} color={color} />
                 );
               }
@@ -133,7 +133,7 @@ export default function Question({
               <FormControlLabel
                 key={index}
                 value={index}
-                control={RadioButton}
+                control={radioButton}
                 label={
                   <QuestionTypography color={color}>
                     {answer}

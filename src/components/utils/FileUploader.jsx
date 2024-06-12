@@ -20,13 +20,16 @@ import {
 } from "@/services/FileUploadService";
 import { updateUniversityMaterials } from "@/services/MaterialsService";
 import { DEFAULT_FILE_UPLOAD_ERROR_MESSAGE } from "@/constants/ErrorMessages";
+import UnauthorizedHandler from "@/utils/UnauthorizedHandler";
 
 export default function FileUploader({ university }) {
   const { universityName, directory } = university;
   const [uploadStarted, setUploadStarted] = useState(false);
   const [uploadFinished, setUploadFinished] = useState(false);
   const [error, setError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(DEFAULT_FILE_UPLOAD_ERROR_MESSAGE);
+  const [errorMessage, setErrorMessage] = useState(
+    DEFAULT_FILE_UPLOAD_ERROR_MESSAGE
+  );
   const [progress, setProgress] = useState(0);
 
   async function rollbackFile(fileName) {
@@ -40,20 +43,16 @@ export default function FileUploader({ university }) {
     setUploadFinished(true);
     getFilesByDirectory(directory).then(async (files) => {
       const { fileName } = files[0];
-      try {
-        const response = await updateUniversityMaterials({
+// TODO: Upadate state after upload
+      await new UnauthorizedHandler(() =>
+        updateUniversityMaterials({
           universityName,
           directory,
           materials: files,
-        });
-        if (!response) {
-          await rollbackFile(fileName);
-          return;
-        }
-        Router.reload();
-      } catch(error) {
-        await rollbackFile(fileName);
-      }
+        })
+      )
+        .withErrorHandler(() => rollbackFile(fileName))
+        .execute();
     });
   }
 

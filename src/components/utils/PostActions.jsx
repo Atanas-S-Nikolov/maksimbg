@@ -71,13 +71,20 @@ export default function PostActions({ post }) {
   async function handleDeletePost(event) {
     event.preventDefault();
     setDeleteDialogOpen(true);
-    await deletePost(post);
-    router.push("/blog");
+    const response = await deletePost(post).execute();
+    if (response?.acknowledged) {
+      router.push("/blog");
+    }
   }
 
   const actions = [
     { icon: <EditIcon />, text: "Промени", onClick: handleEditClick },
-    { icon: <DeleteIcon />, text: "Изтрий", color: "error", onClick: handleDeleteClick },
+    {
+      icon: <DeleteIcon />,
+      text: "Изтрий",
+      color: "error",
+      onClick: handleDeleteClick,
+    },
   ];
 
   return (

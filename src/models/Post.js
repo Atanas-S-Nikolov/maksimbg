@@ -6,9 +6,9 @@ const PostSchema = new Schema({
     unique: [true, "Post already exists"],
     required: [true, "Post title is required"],
   },
-  image: {
-    type: { fileName: String, url: String },
-    required: [true, "Post image url is required"],
+  images: {
+    type: [],
+    required: [true, "Post images are required"],
   },
   description: {
     type: String,

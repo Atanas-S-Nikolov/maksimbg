@@ -33,6 +33,7 @@ import {
   getUniversityByName,
   updateUniversityMaterials,
 } from "@/services/MaterialsService";
+import UnauthorizedHandler from "@/utils/UnauthorizedHandler";
 
 export default function MaterialsSection({ university }) {
   const { universityName, materials, directory } = university;
@@ -52,11 +53,10 @@ export default function MaterialsSection({ university }) {
   }
 
   async function handleDelete(event) {
+    // TODO: Replace router.reload() with state update
     event.preventDefault();
-    const existingUniversity = await getUniversityByName(universityName);
-    const files = await getFilesByDirectory(directory, deleteFileName);  
-
-    try {
+    const files = await getFilesByDirectory(directory, deleteFileName);
+    await new UnauthorizedHandler(async () => {
       const response = await updateUniversityMaterials({
         universityName,
         directory,
@@ -66,9 +66,7 @@ export default function MaterialsSection({ university }) {
         await deleteFile(`${directory}/${deleteFileName}`);
         router.reload();
       }
-    } catch (error) {
-      await updateUniversityMaterials(existingUniversity);
-    }
+    }).execute();
   }
 
   return (

@@ -82,6 +82,7 @@ export default function Navbar() {
               alt={`Лого на ${SITE_NAME}`}
               width={100}
               height={50}
+              priority
             />
           </Link>
           <nav className={styles.nav} ref={navRef}>

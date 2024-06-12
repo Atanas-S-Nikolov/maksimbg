@@ -13,7 +13,8 @@ import { useMediaQuery } from "@mui/material";
 
 export default function Post({ post }) {
   const { isLoggedIn } = useSelector((state) => state.authentication);
-  const { title, image, content, createdOn, updatedOn } = post;
+  const { title, images, content, createdOn, updatedOn } = post;
+  const mainImage = images.find((image) => image.isMain);
   const laptopS = useMediaQuery("(max-width: 800px)", {
     defaultMatches: false,
   });
@@ -57,7 +58,7 @@ export default function Post({ post }) {
       ) : null}
       <Image
         className={styles.image}
-        src={image.url}
+        src={mainImage?.url}
         alt={title}
         width={imageWidth}
         height={imageHeight}
