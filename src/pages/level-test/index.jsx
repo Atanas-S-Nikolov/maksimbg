@@ -7,19 +7,22 @@ import { Gauge, gaugeClasses } from "@mui/x-charts/Gauge";
 
 import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert";
+import Typography from "@mui/material/Typography";
+import Zoom from "@mui/material/Zoom";
 
 import ReplayIcon from "@mui/icons-material/Replay";
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
+
+import { useMediaQuery } from "@mui/material";
+import { useState } from "react";
+import { useRouter } from "next/router";
+import { theme } from "@/utils/theme";
 
 import {
   QUESTIONS,
   DEFAULT_ANSWERS_RESULTS,
   DEFAULT_ANSWERS_SELECTED,
 } from "@/constants/LevelTestQuestions";
-import { Typography, useMediaQuery } from "@mui/material";
-import { useState } from "react";
-import { useRouter } from "next/router";
-import { theme } from "@/utils/theme";
 
 const questionsCount = DEFAULT_ANSWERS_RESULTS.size;
 const {
@@ -140,32 +143,38 @@ export default function LevelTest() {
           />
         ))}
       </section>
-      <section className={styles.results_section}>
-        {testOver ? (
-          <>
-            <Gauge
-              width={gaugeSize}
-              height={gaugeSize}
-              value={gradePercentage}
-              text={`${points} / ${questionsCount}`}
-              startAngle={-120}
-              endAngle={120}
-              sx={{
-                [`& .${gaugeClasses.valueArc}`]: {
-                  fill: gaugeColor.main,
-                },
-                [`& .${gaugeClasses.valueText}`]: {
-                  fontSize: gaugeTextFontSize,
-                },
-              }}
-            />
-            <Typography variant={resultTextVariant} color="secondary">
-              Оценка: {grade}
-            </Typography>
-          </>
-        ) : null}
-        {error ? <Alert severity="error">{alertMessage}</Alert> : null}
-      </section>
+      <Zoom in={testOver}>
+        <section className={styles.results_section}>
+          {testOver ? (
+            <>
+              <Gauge
+                width={gaugeSize}
+                height={gaugeSize}
+                value={gradePercentage}
+                text={`${points} / ${questionsCount}`}
+                startAngle={-120}
+                endAngle={120}
+                sx={{
+                  [`& .${gaugeClasses.valueArc}`]: {
+                    fill: gaugeColor.main,
+                  },
+                  [`& .${gaugeClasses.valueText}`]: {
+                    fontSize: gaugeTextFontSize,
+                  },
+                }}
+              />
+              <Typography variant={resultTextVariant} color="secondary">
+                Оценка: {grade}
+              </Typography>
+            </>
+          ) : null}
+        </section>
+      </Zoom>
+      {error ? (
+        <Zoom in={error}>
+          <Alert severity="error">{alertMessage}</Alert>
+        </Zoom>
+      ) : null}
       <section className={styles.test_actions_section}>
         <Button
           variant="contained"

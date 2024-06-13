@@ -13,12 +13,17 @@ import { useMediaQuery } from "@mui/material";
 import Carousel from "react-material-ui-carousel";
 import { getPost } from "@/services/BlogPostService";
 import { useState } from "react";
+import { theme } from "@/utils/theme";
+
+const { primary: primaryColor } = theme.palette;
 
 export default function Post({ post }) {
   const { isLoggedIn } = useSelector((state) => state.authentication);
   const [postState, setPostState] = useState(post);
   const { title, images, content, createdOn, updatedOn, url } = postState;
-  const sortedImages = images.sort((image) => image.isMain);
+  const sortedImages = images.toSorted(
+    (image1, image2) => image2.isMain - image1.isMain
+  );
   const laptopS = useMediaQuery("(max-width: 800px)", {
     defaultMatches: false,
   });
@@ -46,7 +51,9 @@ export default function Post({ post }) {
 
   return (
     <>
-      {isLoggedIn ? <PostActions post={postState} onPostUpdate={handlePostUpdate}/> : null}
+      {isLoggedIn ? (
+        <PostActions post={postState} onPostUpdate={handlePostUpdate} />
+      ) : null}
       <Typography variant={titleVariant} color="secondary" marginBottom="1em">
         {title}
       </Typography>
@@ -59,7 +66,15 @@ export default function Post({ post }) {
           {dayjs(updatedOn).format(DEFAULT_DATE_FORMAT)}
         </DateTypography>
       ) : null}
-      <Carousel className={styles.carousel} animation="slide" autoPlay={false}>
+      <Carousel
+        className={styles.carousel}
+        autoPlay={false}
+        activeIndicatorIconButtonProps={{
+          style: {
+            color: primaryColor.main,
+          },
+        }}
+      >
         {sortedImages.map((image, index) => (
           <Image
             key={index}
