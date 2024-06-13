@@ -22,6 +22,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { navigationLinks, subMenuLinks } from "@/constants/links";
 import { logout } from "@/services/AdminService";
 import { logoutReducer } from "@/lib/store/slices/authenticationSlice";
+import UnauthorizedHandler from "@/utils/UnauthorizedHandler";
 
 export default function MobileNavigation({ anchor, open, onClose }) {
   const [collapseOpen, setCollapseOpen] = useState(false);
@@ -40,8 +41,10 @@ export default function MobileNavigation({ anchor, open, onClose }) {
   }
 
   async function handleLogout() {
-    await logout();
-    dispatch(logoutReducer());
+    await new UnauthorizedHandler(async () => {
+      await logout();
+      dispatch(logoutReducer());
+    }).execute();
   }
 
   function renderList() {

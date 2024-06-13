@@ -13,7 +13,8 @@ import { DEFAULT_DATE_FORMAT } from "@/constants/DateConstants";
 const DEFAULT_ELEVATION = 3;
 
 export default function PostPreview({ post }) {
-  const { title, image, description, createdOn, updatedOn, url } = post;
+  const { title, images, description, createdOn, updatedOn, url } = post;
+  const mainImage = images.find((image) => image.isMain);
   const date = dayjs(updatedOn ? updatedOn : createdOn).format(
     DEFAULT_DATE_FORMAT
   );
@@ -43,7 +44,7 @@ export default function PostPreview({ post }) {
       >
         <CardMedia
           component="img"
-          image={image.url}
+          image={mainImage?.url || ""}
           height={imageHeight}
           alt={title}
         />

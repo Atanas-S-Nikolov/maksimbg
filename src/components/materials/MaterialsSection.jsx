@@ -21,7 +21,6 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 
 import Link from "next/link";
-import { useRouter } from "next/router";
 
 import {
   IMAGE_FILE_EXTENSIONS,
@@ -33,13 +32,14 @@ import {
   getUniversityByName,
   updateUniversityMaterials,
 } from "@/services/MaterialsService";
+import UnauthorizedHandler from "@/utils/UnauthorizedHandler";
 
 export default function MaterialsSection({ university }) {
-  const { universityName, materials, directory } = university;
-  const { isLoggedIn } = useSelector((state) => state.authentication);
+  const [universityMaterials, setUniversityMaterials] = useState(university);
+  const { universityName, materials, directory } = universityMaterials;
   const [dialogOpen, setDialogOpen] = useState(false);
   const [deleteFileName, setDeleteFileName] = useState("");
-  const router = useRouter();
+  const { isLoggedIn } = useSelector((state) => state.authentication);
 
   function handleDialogClose() {
     setDialogOpen(false);
@@ -51,12 +51,14 @@ export default function MaterialsSection({ university }) {
     setDialogOpen(true);
   }
 
+  async function handleUniversityMaterialsUpdate() {
+    setUniversityMaterials(await getUniversityByName(universityName));
+  }
+
   async function handleDelete(event) {
     event.preventDefault();
-    const existingUniversity = await getUniversityByName(universityName);
-    const files = await getFilesByDirectory(directory, deleteFileName);  
-
-    try {
+    const files = await getFilesByDirectory(directory, deleteFileName);
+    await new UnauthorizedHandler(async () => {
       const response = await updateUniversityMaterials({
         universityName,
         directory,
@@ -64,11 +66,11 @@ export default function MaterialsSection({ university }) {
       });
       if (response) {
         await deleteFile(`${directory}/${deleteFileName}`);
-        router.reload();
+        await handleUniversityMaterialsUpdate();
       }
-    } catch (error) {
-      await updateUniversityMaterials(existingUniversity);
-    }
+    })
+      .withFinallyHandler(() => handleDialogClose())
+      .execute();
   }
 
   return (
@@ -115,7 +117,12 @@ export default function MaterialsSection({ university }) {
           );
         })}
       </section>
-      {isLoggedIn ? <FileUploader university={university} /> : null}
+      {isLoggedIn ? (
+        <FileUploader
+          university={universityMaterials}
+          onUniversityMaterialsUpdate={handleUniversityMaterialsUpdate}
+        />
+      ) : null}
       <Dialog open={dialogOpen}>
         <DialogContent>
           <DialogContentText>

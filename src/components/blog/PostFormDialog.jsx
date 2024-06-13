@@ -1,6 +1,4 @@
-import styles from "@/styles/components/blog/CreatePostDialog.module.css";
-
-import Image from "next/image";
+import styles from "@/styles/components/blog/PostFormDialog.module.css";
 
 import Dialog from "@mui/material/Dialog";
 import AppBar from "@mui/material/AppBar";
@@ -9,6 +7,8 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import ImageList from "@mui/material/ImageList";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import CloseIcon from "@mui/icons-material/Close";
 import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
@@ -23,16 +23,17 @@ import {
 import { createPost, updatePost } from "@/services/BlogPostService";
 import {
   deleteFile,
+  getBytesByDirectory,
   getFilesByDirectory,
+  uploadFileBytes,
   uploadFiles,
 } from "@/services/FileUploadService";
-import dayjs from "dayjs";
-import { DEFAULT_DATE_FORMAT } from "@/constants/DateConstants";
 import { STORAGE_BLOG_IMAGES_DIRECTORY } from "@/constants/URLConstants";
 import StyledBackdropLoader from "../styled/StyledBackdropLoader";
 import SnackbarAlert from "../utils/SnackbarAlert";
 import { CREATE_ACTION, EDIT_ACTION } from "@/constants/ActionConstants";
-import { useRouter } from "next/router";
+import PostImageListItem from "./PostImageListItem";
+import { useMediaQuery } from "@mui/material";
 
 const DESCRIPTION_HELPER_TEXT = "Описание на поста с кратко изречение";
 const DEFAULT_ERROR_OBJECT = { error: false, message: " " };
@@ -51,26 +52,55 @@ const DEFAULT_POST = {
 };
 
 export default function PostFormDialog(props) {
-  const { action = CREATE_ACTION, post = DEFAULT_POST, ...dialogProps } = props;
-  const [imageSrc, setImageSrc] = useState(post.image.url);
-  const [imageFile, setImageFile] = useState();
+  const {
+    action = CREATE_ACTION,
+    post = DEFAULT_POST,
+    onClose,
+    onPostUpdate,
+    ...dialogProps
+  } = props;
+  const isCreateAction = action === CREATE_ACTION;
+  const isEditAction = action === EDIT_ACTION;
+  const postMainImageIndex = post.images?.findIndex((image) => image.isMain);
+  const [mainImageIndex, setMainImageIndex] = useState(
+    isCreateAction ? 0 : postMainImageIndex
+  );
+  const [images, setImages] = useState(post.images || []);
+  const [existingImages, setExistingImages] = useState([]);
   const [title, setTitle] = useState(post.title);
   const [description, setDescription] = useState(post.description);
   const [content, setContent] = useState(post.content);
   const [errors, setErrors] = useState(DEFAULT_ERRORS);
   const [saveBtnDisabled, setSaveBtnDisabled] = useState(true);
-  const [postUrl, setPostUrl] = useState();
+  const [postUrl, setPostUrl] = useState(post.url);
   const [loading, setLoading] = useState(false);
-  const dialogTitleVerb =
-    action === CREATE_ACTION ? "Създаване" : "Редактиране";
-  const router = useRouter();
+  const [imageUploadLoading, setImageUploadLoading] = useState(false);
+  const dialogTitleVerb = isCreateAction ? "Създаване" : "Редактиране";
+  const hasImages = images.length > 0;
+  const mobile = useMediaQuery("(max-width: 1000px)", {
+    defaultMatches: false,
+  });
+  const imageListCols = mobile ? 1 : 3;
 
   useEffect(() => {
-    setPostUrl(crypto.randomUUID());
-  }, []);
+    if (isCreateAction) {
+      setPostUrl(crypto.randomUUID());
+    }
+  }, [isCreateAction]);
 
   useEffect(() => {
-    const hasInput = title && description && content && imageSrc;
+    async function setExistingPostImages() {
+      const directory = STORAGE_BLOG_IMAGES_DIRECTORY + postUrl;
+      setExistingImages(await getBytesByDirectory(directory));
+    }
+
+    if (isEditAction) {
+      setExistingPostImages();
+    }
+  }, [isEditAction, postUrl]);
+
+  useEffect(() => {
+    const hasInput = title && description && content && hasImages;
     let hasNoErrors = true;
 
     for (const value of Object.values(errors)) {
@@ -85,7 +115,20 @@ export default function PostFormDialog(props) {
       return;
     }
     setSaveBtnDisabled(true);
-  }, [title, description, content, imageSrc, errors]);
+  }, [title, description, content, hasImages, errors]);
+
+  async function rollbackImages() {
+    const promises = images.map((image) => {
+      const directory = STORAGE_BLOG_IMAGES_DIRECTORY + postUrl;
+      return deleteFile(`${directory}/${image.fileName}`);
+    });
+    await Promise.all(promises);
+  }
+
+  async function handleDialogCloseWithCleanup(event) {
+    await rollbackImages();
+    onClose(event);
+  }
 
   function handleTitleChange(event) {
     event.preventDefault();
@@ -140,13 +183,36 @@ export default function PostFormDialog(props) {
 
   function handleImageUploadChange(event) {
     event.preventDefault();
-    const files = event.target.files;
-    if (files) {
-      for (const file of files) {
-        setImageSrc(URL.createObjectURL(file));
-        setImageFile(file);
-      }
+    const acceptedFiles = event.target.files;
+    const directory = STORAGE_BLOG_IMAGES_DIRECTORY + postUrl;
+
+    if (acceptedFiles) {
+      setImageUploadLoading(true);
+      uploadFiles(
+        acceptedFiles,
+        directory,
+        handleUploadFinished,
+        handleUploadError
+      );
+      event.target.value = "";
     }
+  }
+
+  function handleMainImageChange(event) {
+    const index = Number(event.target.value);
+    setMainImageIndex(index);
+  }
+
+  function handleImageDelete(event, index) {
+    event.preventDefault();
+    const directory = STORAGE_BLOG_IMAGES_DIRECTORY + postUrl;
+
+    const imagesCopy = [...images];
+    const imageName = images[index].fileName;
+    deleteFile(`${directory}/${imageName}`).then(() => {
+      imagesCopy.splice(index, 1);
+      setImages(imagesCopy);
+    });
   }
 
   function resetCreationError() {
@@ -155,74 +221,71 @@ export default function PostFormDialog(props) {
 
   function handleUploadError(message) {
     setLoading(false);
+    setImageUploadLoading(false);
     setErrors({ ...errors, creation: { error: true, message } });
   }
 
   function handleUploadFinished() {
-    const createdOn = dayjs().format(DEFAULT_DATE_FORMAT);
     const directory = STORAGE_BLOG_IMAGES_DIRECTORY + postUrl;
-    const fileDirectory = `${directory}/${imageFile.name}`;
-    getFilesByDirectory(directory).then(async (files) => {
-      try {
-        const response = await createPost({
-          title,
-          description,
-          content,
-          createdOn,
-          image: files[0],
-          url: postUrl,
-        });
-        if (!response) {
-          await deleteFile(fileDirectory);
-        }
-        router.reload();
-      } catch (error) {
-        const { status, data } = error.response;
-        if (status === 409) {
-          handleUploadError(data.message);
-        }
-        await deleteFile(fileDirectory);
-      }
+    getFilesByDirectory(directory).then((files) => {
+      setImages(files);
+      setImageUploadLoading(false);
     });
-    setLoading(false);
-    setErrors(DEFAULT_ERRORS);
   }
 
-  async function handleSave(event) {
-    event.preventDefault();
-    const directory = STORAGE_BLOG_IMAGES_DIRECTORY + postUrl;
-
-    setLoading(true);
-
-    if (action === CREATE_ACTION) {
-      uploadFiles(
-        [imageFile],
-        directory,
-        handleUploadFinished,
-        handleUploadError
-      );
-    } else if (action === EDIT_ACTION) {
-      await updatePost(post.url, {
+  function executeSaveRequest(postImages) {
+    if (isCreateAction) {
+      return createPost({
+        title,
+        description,
+        content,
+        images: postImages,
+        url: postUrl,
+      });
+    } else if (isEditAction) {
+      return updatePost(post.url, {
         ...post,
         title,
         description,
         content,
+        images: postImages,
       });
-      setLoading(false);
-      setErrors(DEFAULT_ERRORS);
-      dialogProps.onClose();
-      router.reload();
     }
   }
 
+  async function handleSave(event) {
+    event.preventDefault();
+    setLoading(true);
+    const postImages = images.map((image, index) => {
+      const isMain = mainImageIndex === index;
+      return { ...image, isMain };
+    });
+
+    await executeSaveRequest(postImages)
+      .withErrorHandler(async () => {
+        await rollbackImages();
+        if (isEditAction) {
+          await uploadFileBytes(existingImages);
+        }
+      })
+      .withFinallyHandler(async () => {
+        await onPostUpdate();
+        setLoading(false);
+        setErrors(DEFAULT_ERRORS);
+      })
+      .execute();
+
+    onClose(event);
+  }
+
   return (
-    <Dialog fullScreen {...dialogProps}>
+    <Dialog fullScreen onClose={handleDialogCloseWithCleanup} {...dialogProps}>
       <AppBar className={styles.app_bar}>
         <Toolbar>
           <IconButton
             edge="start"
             color="inherit"
-            onClick={dialogProps.onClose}
+            onClick={handleDialogCloseWithCleanup}
             aria-label="close"
           >
             <CloseIcon />
@@ -281,30 +344,37 @@ export default function PostFormDialog(props) {
         />
       </div>
       <section className={styles.image_upload_section}>
-        {imageSrc ? (
-          <Image
-            className={styles.post_image}
-            src={imageSrc}
-            alt="Снимка на поста"
-            width={200}
-            height={200}
+        {imageUploadLoading ? <CircularProgress sx={{ mb: 2 }} /> : null}
+        {hasImages ? (
+          <ImageList cols={imageListCols} gap={8}>
+            {images.map((image, index) => (
+              <PostImageListItem
+                key={image.url}
+                className={styles.post_image}
+                src={image.url}
+                onClick={(event) => handleImageDelete(event, index)}
+                index={index}
+                selectedValue={mainImageIndex}
+                radioChange={handleMainImageChange}
+              />
+            ))}
+          </ImageList>
+        ) : null}
+        <Button
+          className={styles.image_upload_button}
+          startIcon={<InsertPhotoIcon />}
+          variant="contained"
+          component="label"
+        >
+          Качи снимка
+          <input
+            className={styles.file_input}
+            type="file"
+            accept="image/*"
+            onChange={handleImageUploadChange}
+            multiple
           />
-        ) : (
-          <Button
-            className={styles.image_upload_button}
-            startIcon={<InsertPhotoIcon />}
-            variant="contained"
-            component="label"
-          >
-            Качи снимка
-            <input
-              className={styles.file_input}
-              type="file"
-              accept="image/*"
-              onChange={handleImageUploadChange}
-            />
-          </Button>
-        )}
+        </Button>
       </section>
       <StyledBackdropLoader open={loading} />
       <SnackbarAlert

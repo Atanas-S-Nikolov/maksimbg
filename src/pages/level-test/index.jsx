@@ -50,6 +50,10 @@ export default function LevelTest() {
   const resultTextVariant = mobile ? "h6" : "h4";
   const gaugeSize = mobile ? 100 : 175;
   const gaugeTextFontSize = mobile ? "medium" : "x-large";
+  const alertMessage =
+    unselectedAnswersCount > 1
+      ? `Имате ${unselectedAnswersCount} неотговорени въпроса`
+      : "Имате 1 неотговорен въпрос";
 
   function updateAnswersSelected(questionNumber, answerSelected) {
     const answer = { questionNumber, answerSelected };
@@ -160,11 +164,7 @@ export default function LevelTest() {
             </Typography>
           </>
         ) : null}
-        {error ? (
-          <Alert severity="error">
-            Имате {unselectedAnswersCount} неотговорени въпроса
-          </Alert>
-        ) : null}
+        {error ? <Alert severity="error">{alertMessage}</Alert> : null}
       </section>
       <section className={styles.test_actions_section}>
         <Button

@@ -14,7 +14,6 @@
     "@mui/icons-material": "^5.15.15",
     "@mui/material": "^5.15.15",
     "@mui/x-charts": "^7.4.0",
-    "@react-hookz/web": "^24.0.4",
     "@reduxjs/toolkit": "^2.2.3",
     "axios": "^1.6.8",
     "bcryptjs": "^2.4.3",
@@ -28,6 +27,7 @@
     "password-validator": "^5.3.0",
     "react": "^18",
     "react-dom": "^18",
+    "react-material-ui-carousel": "^3.4.2",
     "react-redux": "^9.1.0",
     "redux-persist": "^6.0.0",
     "underscore.string": "^3.3.6"

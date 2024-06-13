@@ -9,6 +9,9 @@ import {
   getDownloadURL,
   listAll,
   deleteObject,
+  getBytes,
+  uploadBytes,
+  getMetadata,
 } from "firebase/storage";
 
 export function uploadFiles(
@@ -64,6 +67,17 @@ export function uploadFiles(
   });
 }
 
+export async function uploadFileBytes(files) {
+  const fileUploadPromises = files.map(({ directory, bytes, metadata}) => {
+    const fileMetadata = {
+      contentType: metadata.contentType,
+    };
+    const storageRef = ref(storage, directory);
+    uploadBytes(storageRef, bytes, fileMetadata);
+  });
+  return await Promise.all(fileUploadPromises);
+}
+
 export async function getFilesByDirectory(directory, filterFileName = "") {
   const storageRef = ref(storage, directory);
   return await listAll(storageRef)
@@ -81,6 +95,23 @@ export async function getFilesByDirectory(directory, filterFileName = "") {
       return await Promise.all(promises);
     })
     .catch((error) => console.log(error));
+}
+
+export async function getBytesByDirectory(directory) {
+  const storageRef = ref(storage, directory);
+  const listResponse = await listAll(storageRef);
+  const promises = listResponse.items.map((i) => {
+    const fileDirectory = `${directory}/${i.name}`;
+    return new Promise(async (resolve) => {
+      const fileRef = ref(storage, fileDirectory);
+      resolve({
+        directory: fileDirectory,
+        bytes: await getBytes(fileRef),
+        metadata: await getMetadata(fileRef)
+      });
+    });
+  });
+  return await Promise.all(promises);
 }
 
 export async function deleteFile(fileDirectory) {

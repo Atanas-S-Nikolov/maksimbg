@@ -32,7 +32,6 @@
 .post_image {
   width: 450px;
   height: 600px;
-  margin-bottom: 3em;
 }
 
 @media (max-width: 900px) {
@@ -55,6 +54,11 @@
 @media (max-width: 500px) {
   .wrapper {
     padding: 0 1.5em;
+  }
+
+  .post_image {
+    width: 250px;
+    height: 400px;
   }
 }
 
