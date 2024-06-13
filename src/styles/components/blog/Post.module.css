@@ -1,6 +1,10 @@
+.carousel {
+  margin: 3em 0;
+  width: 600px;
+}
+
 .image {
   border-radius: 5px;
-  margin: 3em 0;
   filter: grayscale(75%);
   transition: filter linear 1.25s;
   object-fit: cover;
@@ -8,4 +12,22 @@
 
 .image:hover {
   filter: grayscale(0%);
+}
+
+@media (max-width: 800px) {
+  .carousel {
+    width: 400px;
+  }
+}
+
+@media (max-width: 500px) {
+  .carousel {
+    width: 350px;
+  }
+}
+
+@media (max-width: 375px) {
+  .carousel {
+    width: 275px;
+  }
 }

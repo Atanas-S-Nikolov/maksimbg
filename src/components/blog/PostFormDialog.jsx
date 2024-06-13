@@ -56,6 +56,7 @@ export default function PostFormDialog(props) {
     action = CREATE_ACTION,
     post = DEFAULT_POST,
     onClose,
+    onPostUpdate,
     ...dialogProps
   } = props;
   const isCreateAction = action === CREATE_ACTION;
@@ -267,7 +268,8 @@ export default function PostFormDialog(props) {
           await uploadFileBytes(existingImages);
         }
       })
-      .withFinallyHandler(() => {
+      .withFinallyHandler(async () => {
+        await onPostUpdate();
         setLoading(false);
         setErrors(DEFAULT_ERRORS);
       })

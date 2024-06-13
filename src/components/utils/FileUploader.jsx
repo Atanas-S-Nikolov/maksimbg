@@ -11,8 +11,6 @@ import ErrorIcon from "@mui/icons-material/Error";
 
 import { useState } from "react";
 
-import Router from "next/router";
-
 import {
   deleteFile,
   getFilesByDirectory,
@@ -22,7 +20,10 @@ import { updateUniversityMaterials } from "@/services/MaterialsService";
 import { DEFAULT_FILE_UPLOAD_ERROR_MESSAGE } from "@/constants/ErrorMessages";
 import UnauthorizedHandler from "@/utils/UnauthorizedHandler";
 
-export default function FileUploader({ university }) {
+export default function FileUploader({
+  university,
+  onUniversityMaterialsUpdate,
+}) {
   const { universityName, directory } = university;
   const [uploadStarted, setUploadStarted] = useState(false);
   const [uploadFinished, setUploadFinished] = useState(false);
@@ -38,20 +39,22 @@ export default function FileUploader({ university }) {
     setError(true);
   }
 
-  function handleUploadFinished() {
-    setError(false);
-    setUploadFinished(true);
+  function handleUploadFinished(fileName) {
     getFilesByDirectory(directory).then(async (files) => {
-      const { fileName } = files[0];
-// TODO: Upadate state after upload
-      await new UnauthorizedHandler(() =>
-        updateUniversityMaterials({
+      await new UnauthorizedHandler(async () => {
+        await updateUniversityMaterials({
           universityName,
           directory,
           materials: files,
-        })
-      )
+        });
+        await onUniversityMaterialsUpdate();
+      })
         .withErrorHandler(() => rollbackFile(fileName))
+        .withFinallyHandler(() => {
+          setError(false);
+          setUploadFinished(true);
+          setUploadStarted(false);
+        })
         .execute();
     });
   }
@@ -65,12 +68,12 @@ export default function FileUploader({ university }) {
   function handleChange(event) {
     event.preventDefault();
     const files = event.target.files;
-    setUploadStarted(true);
     if (files) {
+      setUploadStarted(true);
       uploadFiles(
         files,
         directory,
-        handleUploadFinished,
+        () => handleUploadFinished(files.item(0).name),
         handleUploadError,
         setProgress
       );
@@ -103,7 +106,7 @@ export default function FileUploader({ university }) {
         ) : (
           <Box className={styles.progress_wrapper}>
             <LinearProgress variant="determinate" value={progress} />
-            <Typography>{progress} %</Typography>
+            <Typography>{progress}%</Typography>
           </Box>
         )}
       </>

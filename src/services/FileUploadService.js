@@ -22,7 +22,6 @@ export function uploadFiles(
   onProgressUpdate = () => {}
 ) {
   return Array.from(files).map((file) => {
-    console.log(file.type);
     const metadata = {
       contentType: file.type,
     };

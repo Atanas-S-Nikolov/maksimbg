@@ -10,11 +10,15 @@ import dayjs from "dayjs";
 import { DEFAULT_DATE_FORMAT } from "@/constants/DateConstants";
 import { useSelector } from "react-redux";
 import { useMediaQuery } from "@mui/material";
+import Carousel from "react-material-ui-carousel";
+import { getPost } from "@/services/BlogPostService";
+import { useState } from "react";
 
 export default function Post({ post }) {
   const { isLoggedIn } = useSelector((state) => state.authentication);
-  const { title, images, content, createdOn, updatedOn } = post;
-  const mainImage = images.find((image) => image.isMain);
+  const [postState, setPostState] = useState(post);
+  const { title, images, content, createdOn, updatedOn, url } = postState;
+  const sortedImages = images.sort((image) => image.isMain);
   const laptopS = useMediaQuery("(max-width: 800px)", {
     defaultMatches: false,
   });
@@ -25,7 +29,6 @@ export default function Post({ post }) {
   const titleVariant = mobileL ? "h5" : laptopTitleVariant;
   const textFontSize = laptopS ? ".9rem" : "1rem";
   const laptopImageHeight = laptopS ? 600 : 800;
-  const imageWidth = laptopS ? 400 : 600;;
   const imageHeight = mobileL ? 550 : laptopImageHeight;
 
   const DateTypography = (props) => (
@@ -37,14 +40,14 @@ export default function Post({ post }) {
     />
   );
 
+  async function handlePostUpdate() {
+    setPostState(await getPost(url));
+  }
+
   return (
     <>
-      {isLoggedIn ? <PostActions post={post} /> : null}
-      <Typography
-        variant={titleVariant}
-        color="secondary"
-        marginBottom="1em"
-      >
+      {isLoggedIn ? <PostActions post={postState} onPostUpdate={handlePostUpdate}/> : null}
+      <Typography variant={titleVariant} color="secondary" marginBottom="1em">
         {title}
       </Typography>
       <DateTypography>
@@ -56,14 +59,19 @@ export default function Post({ post }) {
           {dayjs(updatedOn).format(DEFAULT_DATE_FORMAT)}
         </DateTypography>
       ) : null}
-      <Image
-        className={styles.image}
-        src={mainImage?.url}
-        alt={title}
-        width={imageWidth}
-        height={imageHeight}
-        priority
-      />
+      <Carousel className={styles.carousel} animation="slide" autoPlay={false}>
+        {sortedImages.map((image, index) => (
+          <Image
+            key={index}
+            className={styles.image}
+            src={image.url}
+            alt={title}
+            width={600}
+            height={imageHeight}
+            priority
+          />
+        ))}
+      </Carousel>
       <Typography
         color="text.secondary"
         lineHeight="1.75rem"

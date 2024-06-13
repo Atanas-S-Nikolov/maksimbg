@@ -28,7 +28,7 @@ const StyledBackdrop = styled(Backdrop)({
   zIndex: 2,
 });
 
-export default function PostActions({ post }) {
+export default function PostActions({ post, onPostUpdate }) {
   const [open, setOpen] = useState(false);
   const [updateDialogOpen, setUpdateDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -117,6 +117,7 @@ export default function PostActions({ post }) {
           open={updateDialogOpen}
           action={EDIT_ACTION}
           post={post}
+          onPostUpdate={onPostUpdate}
           onClose={handleUpdateDialogClose}
         />
       ) : null}

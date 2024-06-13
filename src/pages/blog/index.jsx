@@ -12,11 +12,12 @@ import { useSelector } from "react-redux";
 import { getAllPosts } from "@/services/BlogPostService";
 
 export async function getServerSideProps() {
-  const posts = await getAllPosts();
-  return { props: { posts } };
+  const serverPosts = await getAllPosts();
+  return { props: { serverPosts } };
 }
 
-export default function Blog({ posts }) {
+export default function Blog({ serverPosts }) {
+  const [posts, setPosts] = useState(serverPosts);
   const [dialogOpen, setDialogOpen] = useState(false);
   const { isLoggedIn } = useSelector((state) => state.authentication);
   const hasPosts = posts.length > 0;
@@ -29,6 +30,10 @@ export default function Blog({ posts }) {
   function handleDialogClose(event) {
     event.preventDefault();
     setDialogOpen(false);
+  }
+
+  async function handlePostUpdate() {
+    setPosts(await getAllPosts());
   }
 
   return (
@@ -59,7 +64,7 @@ export default function Blog({ posts }) {
         </BottomIconButtonWithTooltip>
       ) : null}
       {dialogOpen ? (
-        <PostFormDialog open={dialogOpen} onClose={handleDialogClose} />
+        <PostFormDialog open={dialogOpen} onPostUpdate={handlePostUpdate} onClose={handleDialogClose} />
       ) : null}
     </>
   );

@@ -21,7 +21,6 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 
 import Link from "next/link";
-import { useRouter } from "next/router";
 
 import {
   IMAGE_FILE_EXTENSIONS,
@@ -36,11 +35,11 @@ import {
 import UnauthorizedHandler from "@/utils/UnauthorizedHandler";
 
 export default function MaterialsSection({ university }) {
-  const { universityName, materials, directory } = university;
-  const { isLoggedIn } = useSelector((state) => state.authentication);
+  const [universityMaterials, setUniversityMaterials] = useState(university);
+  const { universityName, materials, directory } = universityMaterials;
   const [dialogOpen, setDialogOpen] = useState(false);
   const [deleteFileName, setDeleteFileName] = useState("");
-  const router = useRouter();
+  const { isLoggedIn } = useSelector((state) => state.authentication);
 
   function handleDialogClose() {
     setDialogOpen(false);
@@ -52,8 +51,11 @@ export default function MaterialsSection({ university }) {
     setDialogOpen(true);
   }
 
+  async function handleUniversityMaterialsUpdate() {
+    setUniversityMaterials(await getUniversityByName(universityName));
+  }
+
   async function handleDelete(event) {
-    // TODO: Replace router.reload() with state update
     event.preventDefault();
     const files = await getFilesByDirectory(directory, deleteFileName);
     await new UnauthorizedHandler(async () => {
@@ -64,9 +66,11 @@ export default function MaterialsSection({ university }) {
       });
       if (response) {
         await deleteFile(`${directory}/${deleteFileName}`);
-        router.reload();
+        await handleUniversityMaterialsUpdate();
       }
-    }).execute();
+    })
+      .withFinallyHandler(() => handleDialogClose())
+      .execute();
   }
 
   return (
@@ -113,7 +117,12 @@ export default function MaterialsSection({ university }) {
           );
         })}
       </section>
-      {isLoggedIn ? <FileUploader university={university} /> : null}
+      {isLoggedIn ? (
+        <FileUploader
+          university={universityMaterials}
+          onUniversityMaterialsUpdate={handleUniversityMaterialsUpdate}
+        />
+      ) : null}
       <Dialog open={dialogOpen}>
         <DialogContent>
           <DialogContentText>
