@@ -1,7 +1,6 @@
-import Router from "next/router";
 import store from "@/lib/store/globalStore";
-import { logoutReducer } from "@/lib/store/slices/authenticationSlice";
 import { SESSION_EXPIRED_ERROR_MESSAGE } from "@/constants/ErrorMessages";
+import { showNotification } from "@/lib/store/slices/notificationSlice";
 
 export default class UnauthorizedHandler {
   constructor(requestHandler) {
@@ -37,9 +36,7 @@ async function handleUnauthorized(error) {
   if (status === 401) {
     const { message } = data;
     if (message === SESSION_EXPIRED_ERROR_MESSAGE) {
-      alert("Сесията ви изтече!");
-      store.dispatch(logoutReducer());
-      Router.push("/admin/login");
+      store.dispatch(showNotification("Сесията ви изтече!"));
     }
   }
 }

@@ -3,6 +3,7 @@ import { persistCombineReducers, persistStore } from "redux-persist";
 import storage from 'redux-persist/lib/storage';
 
 import authenticationReducer from "./slices/authenticationSlice";
+import notificationReducer from "./slices/notificationSlice";
 
 const persistConfig = {
   key: 'global-store',
@@ -12,7 +13,8 @@ const persistConfig = {
 const persistedReducer = persistCombineReducers(
   persistConfig, 
   {
-    authentication: authenticationReducer
+    authentication: authenticationReducer,
+    notification: notificationReducer,
   }
 ); 
 

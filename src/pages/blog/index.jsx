@@ -10,6 +10,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { getAllPosts } from "@/services/BlogPostService";
+import { INFO_SEVERITY } from "@/constants/SeverityConstants";
 
 export async function getServerSideProps() {
   const serverPosts = await getAllPosts();
@@ -39,7 +40,7 @@ export default function Blog({ serverPosts }) {
   return (
     <>
       {!hasPosts ? (
-        <Alert severity="info" color="secondary">
+        <Alert severity={INFO_SEVERITY} color="secondary">
           Няма качени постове
         </Alert>
       ) : null}
@@ -64,7 +65,11 @@ export default function Blog({ serverPosts }) {
         </BottomIconButtonWithTooltip>
       ) : null}
       {dialogOpen ? (
-        <PostFormDialog open={dialogOpen} onPostUpdate={handlePostUpdate} onClose={handleDialogClose} />
+        <PostFormDialog
+          open={dialogOpen}
+          onPostUpdate={handlePostUpdate}
+          onClose={handleDialogClose}
+        />
       ) : null}
     </>
   );
