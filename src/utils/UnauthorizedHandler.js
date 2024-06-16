@@ -1,5 +1,8 @@
 import store from "@/lib/store/globalStore";
-import { SESSION_EXPIRED_ERROR_MESSAGE } from "@/constants/ErrorMessages";
+import {
+  SESSION_EXPIRED_ERROR_MESSAGE,
+  UNAUTHORIZED_ERROR_MESSAGE,
+} from "@/constants/ErrorMessages";
 import { showNotification } from "@/lib/store/slices/notificationSlice";
 
 export default class UnauthorizedHandler {
@@ -32,11 +35,13 @@ export default class UnauthorizedHandler {
 }
 
 async function handleUnauthorized(error) {
-  console.log(error);
   const { status, data } = error.response;
   if (status === 401) {
     const { message } = data;
-    if (message === SESSION_EXPIRED_ERROR_MESSAGE) {
+    if (
+      message === SESSION_EXPIRED_ERROR_MESSAGE ||
+      message === UNAUTHORIZED_ERROR_MESSAGE
+    ) {
       store.dispatch(showNotification("Сесията ви изтече!"));
     }
   }
