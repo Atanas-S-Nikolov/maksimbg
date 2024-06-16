@@ -32,6 +32,7 @@ export default class UnauthorizedHandler {
 }
 
 async function handleUnauthorized(error) {
+  console.log(error);
   const { status, data } = error.response;
   if (status === 401) {
     const { message } = data;
