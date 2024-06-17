@@ -1,6 +1,6 @@
 import styles from "@/styles/components/header/MobileNavigation.module.css";
 
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
@@ -46,6 +46,18 @@ export default function MobileNavigation({ anchor, open, onClose }) {
       dispatch(logoutReducer());
     }).execute();
   }
+
+  useEffect(() => {
+    function handlePopState(event) {
+      event.preventDefault();
+      handleClose();
+    }
+    addEventListener("popstate", handlePopState);
+
+    return function () {
+      removeEventListener("popstate", handlePopState);
+    };
+  });
 
   function renderList() {
     return (
