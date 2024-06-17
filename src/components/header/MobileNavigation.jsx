@@ -50,6 +50,7 @@ export default function MobileNavigation({ anchor, open, onClose }) {
 
   useEffect(() => {
     function handlePopState(event) {
+      event.preventDefault();
       handleClose();
     }
     addEventListener("popstate", handlePopState);
