@@ -38,7 +38,6 @@ export default function MobileNavigation({ anchor, open, onClose }) {
       toggleCollapse();
     }
     onClose();
-    console.log("called")
   }
 
   async function handleLogout() {
