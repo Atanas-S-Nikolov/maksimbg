@@ -7,11 +7,13 @@ import Button from "@mui/material/Button";
 import Heading from "@/components/utils/Heading";
 import TextContent from "@/components/utils/TextContent";
 import SubHeading from "@/components/utils/SubHeading";
+import RatingsSection from "@/components/ratings/RatingsSection";
 
 import Typography from "@mui/material/Typography";
 
 import homePageImage from "@/assets/home-page-image.jpg";
 import { SITE_NAME } from "@/constants/global";
+import { FEMALE, MALE } from "@/constants/GenderConstants";
 import Link from "next/link";
 
 const freepikLink = (
@@ -20,7 +22,32 @@ const freepikLink = (
   </Link>
 );
 
-export default function Home() {
+export async function getServerSideProps() {
+  const ratings = [
+    {
+      name: "Константин Иванов",
+      gender: MALE,
+      text: 'Благодарение на Максим успях да вляза "Медицина" в "МУ- Варна."!',
+      grade: 5,
+    },
+    {
+      name: "Иван Беделев",
+      gender: MALE,
+      text: "За доста кратко време научих доста от г-н Аспарухов и мога смело да го препоръчам!",
+      grade: 5,
+    },
+    {
+      name: "Жени Иванова",
+      gender: FEMALE,
+      text: "За доста кратко време научих доста от г-н Аспарухов и мога смело да го препоръчам!",
+      grade: 4,
+    },
+  ];
+
+  return { props: { ratings } };
+}
+
+export default function Home({ ratings }) {
   return (
     <>
       <section className={styles.container}>
@@ -33,7 +60,7 @@ export default function Home() {
             През 2020 г. завърших бакалавър по Молекулярна биология в СУ
             &quot;Св. Климент Охридски&quot; с допълнителна квалификация за
             учител по биология. Две години по-късно успешно защитих магистратура
-            като микробиолог. Занимавам се с подготовката на кандидат-студенти
+            като микробиолог. Занимавам се с подготовката на кандидат - студенти
             по специалностите &quot;Медицина&quot;, &quot;Дентална
             медицина&quot; и &quot;Фармация&quot;.
             <br />
@@ -73,6 +100,7 @@ export default function Home() {
           Направи тест
         </Button>
       </section>
+      <RatingsSection ratings={ratings} />
     </>
   );
 }
