@@ -29,11 +29,11 @@ export default function RatingsList({ ratings }) {
     animation: hasAriaHiddenRatings ? "slide 10s linear infinite" : "none",
     "&:hover": {
       animationPlayState: "paused",
-      cursor: "pointer",
+      cursor: animationReduced ? "auto" : "pointer",
     },
     "@keyframes slide": {
       to: {
-        transform: `translate(calc(-100% - ${ANIMATED_BOX_GAP}))`,
+        transform: `translate(calc(-50% - ${ANIMATED_BOX_GAP} / 2))`,
       },
     },
     "@media (max-width: 900px)": {

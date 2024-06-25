@@ -311,8 +311,8 @@ export default function PostFormDialog(props) {
           required
           value={title}
           onChange={handleTitleChange}
-          error={errors.title?.error}
-          helperText={errors.title?.message}
+          error={errors.title.error}
+          helperText={errors.title.message}
         />
         <TextField
           id="description"
@@ -339,8 +339,8 @@ export default function PostFormDialog(props) {
           required
           value={content}
           onChange={handleContentChange}
-          error={errors.content?.error}
-          helperText={errors.content?.message}
+          error={errors.content.error}
+          helperText={errors.content.message}
         />
       </div>
       <section className={styles.image_upload_section}>

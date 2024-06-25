@@ -8,3 +8,6 @@ export const POST_TITLE_ERROR_MESSAGE = "Заглавието не може да
 export const POST_DESCRIPTION_ERROR_MESSAGE = "Описанието не може да бъде празно";
 export const POST_CONTENT_ERROR_MESSAGE = "Съдържанието не може да бъде празно";
 export const POST_IMAGE_ERROR_MESSAGE = "Снимката е задължителна";
+export const NAME_ERROR_MESSAGE = "Името е задължително";
+export const GENDER_ERROR_MESSAGE = "Полът е задължителен";
+export const GRADE_ERROR_MESSAGE = "Оценката е задължителена";

@@ -1,0 +1,22 @@
+.wrapper_section {
+    margin: 25% auto;
+    text-align: center;
+}
+
+.images_section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1em;
+}
+
+.images_section img {
+    width: 200px;
+    height: fit-content;
+}
+
+@media (max-width: 450px) {
+    .images_section {
+        flex-direction: column;
+    }
+}

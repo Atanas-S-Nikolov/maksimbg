@@ -8,6 +8,7 @@ import {
   BLOG_POST_URL,
   MATERIALS_URL,
   PROTECTED_URLS,
+  RATINGS_URL,
 } from "./constants/URLConstants";
 import { decodeJWT } from "./utils/JWTUtils";
 import { DELETE, POST, PUT } from "./constants/RequestMethodConstants";
@@ -34,11 +35,14 @@ export async function middleware(request) {
   const isProtectedBlogEndpoint =
     pathname.includes(BLOG_POST_URL) &&
     (method === POST || method === PUT || method === DELETE);
+  const isProtectedRatingEndpoint =
+    pathname.includes(RATINGS_URL) && (method === PUT || method === DELETE);
 
   if (
     PROTECTED_URLS.includes(pathname) ||
     isProtectedMaterialsEndpoint ||
-    isProtectedBlogEndpoint
+    isProtectedBlogEndpoint ||
+    isProtectedRatingEndpoint
   ) {
     const accessTokenFromCookies = cookies.get(ACCESS_TOKEN_COOKIE_NAME)?.value;
     if (accessTokenFromCookies) {

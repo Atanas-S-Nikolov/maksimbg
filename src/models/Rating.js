@@ -1,4 +1,5 @@
 import { Schema, model, models } from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2";
 
 const RatingSchema = new Schema({
   name: {
@@ -17,12 +18,18 @@ const RatingSchema = new Schema({
     type: Number,
     required: [true, "Grade is required"],
   },
-  status: {
+  isApproved: {
+    type: Boolean,
+    required: [true, "Approved is required"],
+  },
+  url: {
     type: String,
     required: [true, "Status is required"],
+    unique: [true, "Rating url should be unique"],
   },
 });
 
-const Rating = models.RatingSchema || model("Rating", RatingSchema);
+RatingSchema.plugin(mongoosePaginate);
+const Rating = models.Rating || model("Rating", RatingSchema);
 
 export default Rating;

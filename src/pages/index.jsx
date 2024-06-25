@@ -13,7 +13,6 @@ import Typography from "@mui/material/Typography";
 
 import homePageImage from "@/assets/home-page-image.jpg";
 import { SITE_NAME } from "@/constants/global";
-import { FEMALE, MALE } from "@/constants/GenderConstants";
 import Link from "next/link";
 
 const freepikLink = (
@@ -22,32 +21,7 @@ const freepikLink = (
   </Link>
 );
 
-export async function getServerSideProps() {
-  const ratings = [
-    {
-      name: "Константин Иванов",
-      gender: MALE,
-      text: 'Благодарение на Максим успях да вляза "Медицина" в "МУ- Варна."!',
-      grade: 5,
-    },
-    {
-      name: "Иван Беделев",
-      gender: MALE,
-      text: "За доста кратко време научих доста от г-н Аспарухов и мога смело да го препоръчам!",
-      grade: 5,
-    },
-    {
-      name: "Жени Иванова",
-      gender: FEMALE,
-      text: "За доста кратко време научих доста от г-н Аспарухов и мога смело да го препоръчам!",
-      grade: 4,
-    },
-  ];
-
-  return { props: { ratings } };
-}
-
-export default function Home({ ratings }) {
+export default function Home() {
   return (
     <>
       <section className={styles.container}>
@@ -100,7 +74,7 @@ export default function Home({ ratings }) {
           Направи тест
         </Button>
       </section>
-      <RatingsSection ratings={ratings} />
+      <RatingsSection />
     </>
   );
 }

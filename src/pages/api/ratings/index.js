@@ -7,10 +7,29 @@ export default async function handler(req, res) {
 
   switch (method) {
     case POST:
-      res.status(201).json(await executeDbCall(() => Rating.create(body)));
+      res
+        .status(201)
+        .json(
+          await executeDbCall(() =>
+            Rating.create({
+              ...body,
+              isApproved: false,
+              url: crypto.randomUUID(),
+            })
+          )
+        );
       break;
     case GET:
-      res.status(200).json(await executeDbCall(() => Rating.find({})));
+      const { approved, page = 1, limit = 6 } = req.query;
+      const parameters = approved ? { isApproved: approved } : {};
+      const query = Rating.find(parameters);
+      const ratings = await executeDbCall(() =>
+        Rating.paginate(query, {
+          page,
+          limit,
+        })
+      );
+      res.status(200).json(ratings);
       break;
   }
 }
