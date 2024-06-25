@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import Heading from "@/components/utils/Heading";
 import TextContent from "@/components/utils/TextContent";
 import SubHeading from "@/components/utils/SubHeading";
+import RatingsSection from "@/components/ratings/RatingsSection";
 
 import Typography from "@mui/material/Typography";
 
@@ -33,7 +34,7 @@ export default function Home() {
             През 2020 г. завърших бакалавър по Молекулярна биология в СУ
             &quot;Св. Климент Охридски&quot; с допълнителна квалификация за
             учител по биология. Две години по-късно успешно защитих магистратура
-            като микробиолог. Занимавам се с подготовката на кандидат-студенти
+            като микробиолог. Занимавам се с подготовката на кандидат - студенти
             по специалностите &quot;Медицина&quot;, &quot;Дентална
             медицина&quot; и &quot;Фармация&quot;.
             <br />
@@ -73,6 +74,7 @@ export default function Home() {
           Направи тест
         </Button>
       </section>
+      <RatingsSection />
     </>
   );
 }
