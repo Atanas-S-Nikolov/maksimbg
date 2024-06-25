@@ -8,10 +8,20 @@
   filter: grayscale(75%);
   transition: filter linear 1.25s;
   object-fit: cover;
+  cursor: move;
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
 }
 
 .image:hover {
   filter: grayscale(0%);
+}
+
+.image:active {
+  cursor: grabbing;
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
 }
 
 @media (max-width: 800px) {
