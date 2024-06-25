@@ -36,7 +36,7 @@ export default function PostPreview({ post }) {
   }
 
   return (
-    <Link href={`/blog/post/${url}`}>
+    <Link href={`/blog/${url}`}>
       <Card
         elevation={elevation}
         onMouseEnter={handleMouseEnter}

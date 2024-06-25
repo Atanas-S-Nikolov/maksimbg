@@ -14,14 +14,16 @@ import Carousel from "react-material-ui-carousel";
 import { getPost } from "@/services/BlogPostService";
 import { useState } from "react";
 import { theme } from "@/utils/theme";
+import { useRouter } from "next/router";
+import { NOT_FOUND_PAGE_URL } from "@/constants/URLConstants";
 
 const { primary: primaryColor } = theme.palette;
 
 export default function Post({ post }) {
   const { isLoggedIn } = useSelector((state) => state.authentication);
   const [postState, setPostState] = useState(post);
-  const { title, images, content, createdOn, updatedOn, url } = postState;
-  const sortedImages = images.toSorted(
+  const { title, images, content, createdOn, updatedOn, url } = postState || {};
+  const sortedImages = images?.toSorted(
     (image1, image2) => image2.isMain - image1.isMain
   );
   const laptopS = useMediaQuery("(max-width: 800px)", {
@@ -35,6 +37,11 @@ export default function Post({ post }) {
   const textFontSize = laptopS ? ".9rem" : "1rem";
   const laptopImageHeight = laptopS ? 600 : 800;
   const imageHeight = mobileL ? 550 : laptopImageHeight;
+  const router = useRouter();
+
+  if (!post) {
+    router.replace(NOT_FOUND_PAGE_URL);
+  }
 
   const DateTypography = (props) => (
     <Typography
@@ -75,7 +82,7 @@ export default function Post({ post }) {
           },
         }}
       >
-        {sortedImages.map((image, index) => (
+        {sortedImages?.map((image, index) => (
           <Image
             key={index}
             className={styles.image}
