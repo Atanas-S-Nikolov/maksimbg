@@ -69,12 +69,12 @@ export default function MobileNavigation({ anchor, open, onClose }) {
           <ListItem onClick={toggleCollapse} disableGutters>
             <ListItemButton className={styles.mobile_list_button}>
               <ListItemText primary="Информация за кандидатстване" />
+              {collapseOpen ? (
+                <KeyboardArrowUpRoundedIcon />
+              ) : (
+                <KeyboardArrowDownRoundedIcon />
+              )}
             </ListItemButton>
-            {collapseOpen ? (
-              <KeyboardArrowUpRoundedIcon />
-            ) : (
-              <KeyboardArrowDownRoundedIcon />
-            )}
           </ListItem>
           <Divider />
           <Collapse in={collapseOpen} timeout="auto" unmountOnExit>
