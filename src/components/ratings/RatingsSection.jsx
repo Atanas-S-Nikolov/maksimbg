@@ -80,7 +80,9 @@ export default function RatingsSection() {
         Вижте отзиви от бивши кандидат - студенти минали през моите уроци.
       </StyledSubHeading>
       <StyledSection>{renderRatings()}</StyledSection>
-      <StyledLink href="/ratings?page=1">Вижте всички отзиви</StyledLink>
+      {hasRatings ? (
+        <StyledLink href="/ratings?page=1">Вижте всички отзиви</StyledLink>
+      ) : null}
       <RatingForm />
     </>
   );
