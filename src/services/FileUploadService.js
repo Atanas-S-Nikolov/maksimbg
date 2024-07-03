@@ -68,7 +68,7 @@ export function uploadFiles(
 }
 
 export async function uploadFileBytes(files) {
-  const fileUploadPromises = files.map(({ directory, bytes, metadata}) => {
+  const fileUploadPromises = files.map(({ directory, bytes, metadata }) => {
     const fileMetadata = {
       contentType: metadata.contentType,
     };
@@ -94,6 +94,12 @@ export async function getFilesByDirectory(directory, filterFileName = "") {
         });
       return await Promise.all(promises);
     })
+    .then((files) => {
+      return files.map(({ fileName, url }) => {
+        const formatedUrl = new URL("?alt=media", url).href;
+        return { fileName, url: formatedUrl };
+      });
+    })
     .catch((error) => console.log(error));
 }
 
@@ -107,7 +113,7 @@ export async function getBytesByDirectory(directory) {
       resolve({
         directory: fileDirectory,
         bytes: await getBytes(fileRef),
-        metadata: await getMetadata(fileRef)
+        metadata: await getMetadata(fileRef),
       });
     });
   });

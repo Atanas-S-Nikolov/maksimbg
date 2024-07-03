@@ -31,13 +31,13 @@ export function deletePost(post) {
     const { url, images } = post;
     const response = await backendRequest.delete(`${BLOG_POST_URL}/${url}`);
     if (response.status === 200) {
-      await deletePostImages(images, url);
+      await deletePostImages(url, images);
       return response.data;
     }
   });
 }
 
-async function deletePostImages(images, postUrl) {
+export async function deletePostImages(postUrl, images) {
   const postDirectory = `${STORAGE_BLOG_IMAGES_DIRECTORY}${postUrl}`;
   const promises = images.map((image) =>
     deleteFile(`${postDirectory}/${image.fileName}`)

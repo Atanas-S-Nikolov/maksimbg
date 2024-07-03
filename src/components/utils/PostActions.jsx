@@ -70,7 +70,6 @@ export default function PostActions({ post, onPostUpdate }) {
 
   async function handleDeletePost(event) {
     event.preventDefault();
-    setDeleteDialogOpen(true);
     const response = await deletePost(post).execute();
     if (response?.acknowledged) {
       router.push("/blog");
