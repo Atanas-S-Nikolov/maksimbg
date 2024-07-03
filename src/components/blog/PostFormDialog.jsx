@@ -20,7 +20,7 @@ import {
   POST_DESCRIPTION_ERROR_MESSAGE,
   POST_TITLE_ERROR_MESSAGE,
 } from "@/constants/ErrorMessages";
-import { createPost, updatePost } from "@/services/BlogPostService";
+import { createPost, deletePostImages, updatePost } from "@/services/BlogPostService";
 import {
   deleteFile,
   getBytesByDirectory,
@@ -118,11 +118,10 @@ export default function PostFormDialog(props) {
   }, [title, description, content, hasImages, errors]);
 
   async function rollbackImages() {
-    const promises = images.map((image) => {
-      const directory = STORAGE_BLOG_IMAGES_DIRECTORY + postUrl;
-      return deleteFile(`${directory}/${image.fileName}`);
-    });
-    await Promise.all(promises);
+    await deletePostImages(postUrl, images);
+    if (isEditAction) {
+      await uploadFileBytes(existingImages);
+    }
   }
 
   async function handleDialogCloseWithCleanup(event) {
@@ -264,9 +263,6 @@ export default function PostFormDialog(props) {
     await executeSaveRequest(postImages)
       .withErrorHandler(async () => {
         await rollbackImages();
-        if (isEditAction) {
-          await uploadFileBytes(existingImages);
-        }
       })
       .withFinallyHandler(async () => {
         await onPostUpdate();
