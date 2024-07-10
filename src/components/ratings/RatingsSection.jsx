@@ -10,6 +10,7 @@ import RatingsList from "./RatingsList";
 import RatingForm from "./RatingForm";
 import { INFO_SEVERITY } from "@/constants/SeverityConstants";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { getApprovedRatings } from "@/services/RatingService";
 import StyledLink from "../styled/StyledLink";
 
@@ -43,6 +44,7 @@ const StyledAlert = styled(Alert)(({ theme }) => ({
 export default function RatingsSection() {
   const [ratings, setRatings] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { isLoggedIn } = useSelector((state) => state.authentication);
 
   useEffect(() => {
     async function fetchRatings() {
@@ -80,7 +82,7 @@ export default function RatingsSection() {
         Вижте отзиви от бивши кандидат - студенти минали през моите уроци.
       </StyledSubHeading>
       <StyledSection>{renderRatings()}</StyledSection>
-      {hasRatings ? (
+      {hasRatings || isLoggedIn? (
         <StyledLink href="/ratings?page=1">Вижте всички отзиви</StyledLink>
       ) : null}
       <RatingForm />
