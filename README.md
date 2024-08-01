@@ -1,40 +1,65 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Maksimbg - Personal Biology Website
 
-## Getting Started
+## About the project
 
-First, run the development server:
+This is personal biology website of my friend who is Biology Teacher, and it is used for advertisement and communication with candidate students for Medicine, Pharmacy and Molecular biology.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Functionalities
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. Online exam.
+2. Ratings.
+3. File management.
+4. Blog.
+5. Admin Panel. (Can be used only from me and my friend).
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+### CI/CD
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+The project is scanned with [DeepScan](https://deepscan.io/)
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+[![DeepScan grade](https://deepscan.io/api/teams/20913/projects/26788/branches/854468/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=20913&pid=26788&bid=854468)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+The project is deployed in [Vercel](https://vercel.com/)
 
-## Learn More
+Production deployment - [https://maksimbg.vercel.app/](https://maksimbg.vercel.app/)
 
-To learn more about Next.js, take a look at the following resources:
+## Prerequisites
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+* Installed ``node``
+* Created MongoDB Atlas Cluster.
+* Created Firebase Storage.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Run instructions
 
-## Deploy on Vercel
+1. Clone the project.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2. Navigate to project directory.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+3. Install dependencies:
+
+    ```bash
+    npm install # or equivalent in your package manager
+    ```
+
+4. Create .env.local file and update the corresponding Environment variables.
+
+    ```bash
+    MONGODB_URI={YOUR_MONGODB_URI}
+    FIREBASE_API_KEY={YOUR_FIREBASE_API_KEY}
+    FIREBASE_PROJECT_ID={YOUR_FIREBASE_PROJECT_ID}
+    FIREBASE_AUTH_DOMAIN={YOUR_FIREBASE_AUTH_DOMAIN}
+    FIREBASE_MESSAGING_SENDER_ID={YOUR_FIREBASE_MESSAGING_SENDER_ID}
+    FIREBASE_APP_ID={YOUR_FIREBASE_APP_ID}
+    FIREBASE_MEASUREMENT_ID={YOUR_FIREBASE_MEASUREMENT_ID}
+    JWT_SECRET={YOUR_JWT_SECRET}
+    JWT_ALGORITHM={YOUR_JWT_ALGORITHM}
+    ```
+
+    Also change NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET in .env and NEXT_PUBLIC_SERVER_URL in .env.production files.
+
+5. Run in development:
+
+    ```bash
+    npm run dev # or equivalent in your package manager
+    ```
+
+The app should be opened in the browser. If not open [http://localhost:3000](http://localhost:3000)
